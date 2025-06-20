@@ -1,14 +1,11 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 
-# MongoDB connection URI (adjust if needed)
-MONGO_URI = "mongodb://localhost:27017"
+# MongoDB connection string (local)
+MONGO_URL = "mongodb://localhost:27017"
+DATABASE_NAME = "unibridge"
 
-# Connect to the MongoDB client
-client = AsyncIOMotorClient(MONGO_URI)
+# Function to return the DB connection
+def get_database():
+    client = AsyncIOMotorClient(MONGO_URL)
+    return client[DATABASE_NAME]
 
-# Access the database
-db = client["unibridge_vacancies"]
-
-# Return the collection to be used in queries
-def get_vacancy_collection():
-    return db["vacancies"]

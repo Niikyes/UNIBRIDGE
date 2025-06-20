@@ -1,35 +1,39 @@
 import graphene
-from app.db import get_vacancy_collection
-from app.models import VacancyModel
+from app.db import get_database
 
-# Define the GraphQL type based on our Pydantic model
-class VacancyType(graphene.ObjectType):
+# GraphQL object type for a vacancy
+class Vacancy(graphene.ObjectType):
     id = graphene.String()
     title = graphene.String()
     description = graphene.String()
-    start_date = graphene.String()
+    startDate = graphene.String()
     careers = graphene.List(graphene.String)
-    company_id = graphene.String()
+    companyId = graphene.String()
 
-# Define GraphQL query to retrieve all vacancies
+# Root query object
 class Query(graphene.ObjectType):
-    all_vacancies = graphene.List(VacancyType)
+    allVacancies = graphene.List(Vacancy)
 
-    # Resolver function to fetch vacancies from MongoDB
-    def resolve_all_vacancies(self, info):
-        collection = get_vacancy_collection()
-        vacancies = list(collection.find())
-        return [
-            VacancyType(
-                id=str(v["_id"]),
-                title=v["title"],
-                description=v["description"],
-                start_date=v["start_date"],
-                careers=v["careers"],
-                company_id=v["company_id"]
+    # Resolver function to fetch all vacancies
+    async def resolve_allVacancies(self, info):
+        db = get_database()
+        cursor = db["vacancies"].find()
+        results = []
+        async for document in cursor:
+            results.append(
+                Vacancy(
+                    id=str(document.get("_id")),
+                    title=document.get("title", ""),
+                    description=document.get("description", ""),
+                    startDate=document.get("start_date", ""),
+                    careers=document.get("careers", []),
+                    companyId=document.get("company_id", "")
+                )
             )
-            for v in vacancies
-        ]
+        return results
 
-# Define GraphQL schema
+# Schema definition
 schema = graphene.Schema(query=Query)
+
+
+

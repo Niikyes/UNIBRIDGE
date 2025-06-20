@@ -37,5 +37,10 @@ async def graphql_post(request: Request):
         graphene_schema.graphql_schema,
         source=query
     )
-    return JSONResponse(result.to_dict())
+    response = {}
+    if result.errors:
+        response["errors"] = [str(error) for error in result.errors]
+        if result.data:
+            response["data"] = result.data
+    return JSONResponse(response)
 
