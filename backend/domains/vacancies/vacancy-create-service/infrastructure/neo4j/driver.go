@@ -5,7 +5,7 @@ import (
 )
 
 func NewDriver() (neo4j.DriverWithContext, error) {
-	uri := "neo4j://127.0.0.1:7687" // 
+	uri := "bolt://127.0.0.1:7687" // 
 	auth := neo4j.BasicAuth("neo4j", "12345678", "") // 
 	return neo4j.NewDriverWithContext(uri, auth)
 }

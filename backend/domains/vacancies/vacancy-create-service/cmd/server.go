@@ -17,7 +17,7 @@ func StartServer() {
 	// Connect to Neo4j database using the official driver
 	driver, err := neo4jDriver.NewDriverWithContext(
 		"bolt://localhost:7687",                      // Neo4j connection URI
-		neo4jDriver.BasicAuth("neo4j", "password", ""), // Username and password
+		neo4jDriver.BasicAuth("neo4j", "12345678", ""), // Username and password
 	)
 	if err != nil {
 		log.Fatalf("Error al conectar con Neo4j: %v", err)
