@@ -1,8 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.graphql import GraphQLApp
-
-from app.graphql_schema import schema
+from fastapi.responses import JSONResponse
+from fastapi.routing import APIRoute
+from graphql import graphql_sync
+from graphql.type import GraphQLSchema
+from graphene import Schema
+from app.graphql_schema import schema as graphene_schema
 
 # Create FastAPI app
 app = FastAPI(
@@ -11,19 +14,28 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Enable CORS to allow frontend to interact
+# Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Replace * with specific domains in production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# GraphQL endpoint mounted
-app.add_route("/graphql", GraphQLApp(schema=schema))
-
-# Health check endpoint
+# Health check
 @app.get("/ping")
 def ping():
     return {"message": "pong"}
+
+# Custom GraphQL POST handler
+@app.post("/graphql")
+async def graphql_post(request: Request):
+    body = await request.json()
+    query = body.get("query")
+    result = graphql_sync(
+        graphene_schema.graphql_schema,
+        source=query
+    )
+    return JSONResponse(result.to_dict())
+
