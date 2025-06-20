@@ -61,9 +61,11 @@ func RegisterVacancyRoutes(router *gin.Engine, driver neo4j.DriverWithContext) {
 		})
 
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error al crear la vacante"})
-			return
-		}
+	// Imprime el error exacto en consola para depuración
+	println("Error al ejecutar consulta en Neo4j:", err.Error())
+	c.JSON(http.StatusInternalServerError, gin.H{"error": "Error al crear la vacante"})
+	return
+}
 
 		c.JSON(http.StatusCreated, gin.H{"id": id, "message": "Vacante creada exitosamente"})
 	})
