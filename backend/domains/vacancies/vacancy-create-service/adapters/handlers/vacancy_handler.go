@@ -6,7 +6,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 
-	"core/entities"
+	"github.com/Niikyes/UNIBRIDGE/backend/domains/vacancies/vacancy-create-service/core/entities"
+
 )
 
 // RegisterVacancyRoutes registers the POST /vacancy route

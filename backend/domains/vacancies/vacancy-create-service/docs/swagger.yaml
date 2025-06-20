@@ -1,0 +1,60 @@
+openapi: 3.0.0
+info:
+  title: vacancy-create-service
+  description: API for creating internship vacancies.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /vacancy:
+    post:
+      summary: Create a new internship vacancy
+      description: Receives vacancy data and stores it in Neo4j.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VacancyRequest'
+      responses:
+        '201':
+          description: Vacancy created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Generated UUID
+                  message:
+                    type: string
+                    example: Vacancy successfully created
+        '400':
+          description: Invalid JSON payload
+        '500':
+          description: Server or database error
+components:
+  schemas:
+    VacancyRequest:
+      type: object
+      required:
+        - title
+        - description
+        - start_date
+        - careers
+        - company_id
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        start_date:
+          type: string
+          format: date
+        careers:
+          type: array
+          items:
+            type: string
+        company_id:
+          type: string
