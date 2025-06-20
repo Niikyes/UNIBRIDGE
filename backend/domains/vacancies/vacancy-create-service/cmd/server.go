@@ -21,7 +21,7 @@ func StartServer() {
 	)
 	if err != nil {
 		log.Fatalf("Error al conectar con Neo4j: %v", err)
-	}Agregar o actualizar análisis o código de seguimient
+	}
 	defer driver.Close(ctx) // Close the driver connection gracefully
 
 	router := gin.Default() // Create a new Gin router
