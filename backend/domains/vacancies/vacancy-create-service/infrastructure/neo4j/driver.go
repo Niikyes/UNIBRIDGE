@@ -1,8 +1,7 @@
 package neo4j
 
 import (
-	"context"
-	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
+		"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 )
 
 func NewDriver() (neo4j.DriverWithContext, error) {
