@@ -6,8 +6,9 @@ import (
 )
 
 func RegisterVacancyRoutes(router *gin.Engine, driver neo4j.DriverWithContext) {
-	// Ruta temporal para probar si todo está bien
+	// Ruta temporal de prueba
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "pong"})
 	})
 }
+

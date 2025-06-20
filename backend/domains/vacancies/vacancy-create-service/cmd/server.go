@@ -6,8 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 
-	"vacancy-create-service/adapters/handlers"
-	"vacancy-create-service/infrastructure/neo4j"
+	"github.com/Niikyes/UNIBRIDGE/backend/domains/vacancies/vacancy-create-service/adapters/handlers"
+	"github.com/Niikyes/UNIBRIDGE/backend/domains/vacancies/vacancy-create-service/infrastructure/neo4j"
 )
 
 func StartServer() {
@@ -29,3 +29,4 @@ func StartServer() {
 	log.Println("🚀 Servidor escuchando en http://localhost:8080")
 	router.Run(":8080")
 }
+
