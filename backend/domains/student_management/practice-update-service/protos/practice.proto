@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package practice;
+
+option go_package = "practice-update-service/protos";
+
+// Request to update a practice
+message UpdatePracticeRequest {
+  int32 id = 1;
+  string fecha_inicio = 2;
+  string fecha_fin = 3;
+  string tutor_academico_id = 4;
+  string tutor_empresarial_id = 5;
+  string estado = 6;
+}
+
+// Response after update
+message UpdatePracticeResponse {
+  string message = 1;
+}
