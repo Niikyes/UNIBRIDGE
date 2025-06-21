@@ -2,6 +2,10 @@ syntax = "proto3";
 
 package practice;
 
+option go_package = "github.com/Niikyes/UNIBRIDGE/backend/domains/student_management/practice-create-service/protos";
+
+
+// Structure to create a new practice
 message CreatePracticeRequest {
   string estudiante_id = 1;
   int32 vacante_id = 2;
