@@ -1,0 +1,57 @@
+openapi: 3.0.0
+info:
+  title: Practice Get Service API
+  version: "1.0"
+  description: API to retrieve practices for a student.
+servers:
+  - url: http://localhost:5001
+paths:
+  /api/practice/{estudiante_id}:
+    get:
+      summary: Get practices by student ID
+      parameters:
+        - name: estudiante_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: UUID of the student
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filter practices by status (e.g., en_progreso, finalizada)
+      responses:
+        "200":
+          description: List of practices
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    vacante_id:
+                      type: integer
+                      example: 12
+                    fecha_inicio:
+                      type: string
+                      format: date-time
+                    fecha_fin:
+                      type: string
+                      format: date-time
+                    tutor_academico_id:
+                      type: string
+                      format: uuid
+                    tutor_empresarial_id:
+                      type: string
+                      format: uuid
+                    estado:
+                      type: string
+                      example: en_progreso
+        "500":
+          description: Internal server error
