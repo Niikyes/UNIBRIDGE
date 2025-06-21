@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package practice;
+
+message CreatePracticeRequest {
+  string estudiante_id = 1;
+  int32 vacante_id = 2;
+  string fecha_inicio = 3;
+  string fecha_fin = 4;
+  string tutor_academico_id = 5;
+  string tutor_empresarial_id = 6;
+}
+
+message CreatePracticeResponse {
+  string message = 1;
+  int32 practica_id = 2;
+}
