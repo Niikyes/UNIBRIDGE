@@ -17,6 +17,6 @@ func main() {
 		port = "5000"
 	}
 
-	log.Printf("🌐 Running on http://localhost:%s", port)
+	log.Printf("Running on http://localhost:%s", port)
 	router.Run(":" + port)
 }
