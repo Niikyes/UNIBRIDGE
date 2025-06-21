@@ -48,6 +48,7 @@ func GetPracticesByStudentID(studentID string, statusFilter string) ([]models.Pr
 			&p.Estado,
 		)
 		if err != nil {
+			fmt.Println("SCAN ERROR:", err) 
 			return nil, fmt.Errorf("error scanning row: %v", err)
 		}
 		practices = append(practices, p)
