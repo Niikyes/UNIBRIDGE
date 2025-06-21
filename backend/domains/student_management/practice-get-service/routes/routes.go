@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/Niikyes/UNIBRIDGE/backend/domains/student_management/practice-get-service/controllers"
+	"practice-get-service/controllers"
 )
 
 // SetupRoutes configures the available routes for the microservice

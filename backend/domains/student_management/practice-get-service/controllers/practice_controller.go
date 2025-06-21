@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/Niikyes/UNIBRIDGE/backend/domains/student_management/practice-get-service/repository"
+	"practice-get-service/repository"
 )
 
 // GetPracticesHandler handles the GET request to fetch practices by student ID

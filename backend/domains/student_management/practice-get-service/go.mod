@@ -1,4 +1,4 @@
-module github.com/Niikyes/UNIBRIDGE/backend/domains/student_management/practice-get-service
+module practice-get-service
 
 go 1.24.4
 

@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Niikyes/UNIBRIDGE/backend/domains/student_management/practice-get-service/config"
-	"github.com/Niikyes/UNIBRIDGE/backend/domains/student_management/practice-get-service/models"
+	"practice-get-service/config"
+	"practice-get-service/models"
 )
 
 // GetPracticesByStudentID retrieves all practices for a given student, with optional status filter
