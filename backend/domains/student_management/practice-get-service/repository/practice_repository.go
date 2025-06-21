@@ -30,6 +30,7 @@ func GetPracticesByStudentID(studentID string, statusFilter string) ([]models.Pr
 	// Execute query
 	rows, err := config.DB.Query(context.Background(), query, args...)
 	if err != nil {
+		fmt.Println("QUERY ERROR:", err) //print error
 		return nil, fmt.Errorf("error querying practices: %v", err)
 	}
 	defer rows.Close()
