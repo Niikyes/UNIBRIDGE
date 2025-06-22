@@ -22,6 +22,6 @@ func main() {
 	}
 
 	// Run server
-	log.Printf("🌐 Practice Finalize Service running on http://localhost:%s", port)
+	log.Printf("Practice Finalize Service running on http://localhost:%s", port)
 	router.Run(":" + port)
 }
