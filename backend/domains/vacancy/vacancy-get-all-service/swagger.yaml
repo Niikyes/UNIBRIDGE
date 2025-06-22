@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  title: Vacancy Get All Service API
+  version: "1.0"
+  description: API to retrieve all active job vacancies.
+servers:
+  - url: http://localhost:8000
+paths:
+  /api/vacancies:
+    get:
+      summary: Get all active vacancies
+      responses:
+        "200":
+          description: List of active vacancies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    titulo:
+                      type: string
+                    descripcion:
+                      type: string
+                    empresa_id:
+                      type: integer
+                    ciudad:
+                      type: string
+                    carrera:
+                      type: string
+                    estado:
+                      type: string
+                    fecha_publicacion:
+                      type: string
+                      format: date
+        "500":
+          description: Internal server error

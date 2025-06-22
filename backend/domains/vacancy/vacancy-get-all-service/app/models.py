@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import date
 from typing import Optional
 
 # Vacancy represents the structure of a job opening
@@ -10,4 +11,4 @@ class Vacancy(BaseModel):
     ciudad: str
     carrera: str
     estado: str
-    fecha_publicacion: Optional[str]
+    fecha_publicacion: Optional[date]
