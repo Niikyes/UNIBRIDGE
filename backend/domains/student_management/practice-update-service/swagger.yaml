@@ -1,0 +1,55 @@
+openapi: 3.0.0
+info:
+  title: Practice Update Service API
+  version: "1.0"
+  description: API to update a professional practice record.
+servers:
+  - url: http://localhost:5002
+paths:
+  /api/practice/{id}:
+    put:
+      summary: Update a practice by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Practice ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - fecha_inicio
+                - fecha_fin
+                - tutor_academico_id
+                - tutor_empresarial_id
+                - estado
+              properties:
+                fecha_inicio:
+                  type: string
+                  format: date
+                  example: "2025-08-01"
+                fecha_fin:
+                  type: string
+                  format: date
+                  example: "2025-10-15"
+                tutor_academico_id:
+                  type: string
+                  format: uuid
+                tutor_empresarial_id:
+                  type: string
+                  format: uuid
+                estado:
+                  type: string
+                  example: finalizada
+      responses:
+        "200":
+          description: Practice updated successfully
+        "400":
+          description: Invalid input
+        "500":
+          description: Internal server error
