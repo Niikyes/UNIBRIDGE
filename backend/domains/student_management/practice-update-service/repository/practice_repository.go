@@ -33,6 +33,7 @@ func UpdatePractice(p models.Practice) error {
 	)
 
 	if err != nil {
+		fmt.Println("UPDATE ERROR:", err)
 		return fmt.Errorf("failed to update practice: %v", err)
 	}
 
