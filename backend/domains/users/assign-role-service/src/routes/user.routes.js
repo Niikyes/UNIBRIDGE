@@ -37,4 +37,4 @@ const { assignRole } = require('../controllers/user.controller');
  */
 router.put('/:id/role', assignRole);
 
-module.exports = router;
+module.exports = router; 

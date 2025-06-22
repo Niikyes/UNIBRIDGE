@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';  
+import axios from 'axios';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ export default function RegisterPage() {
   const handleSubmit = async e => {
     e.preventDefault();
     setError('');
-    try { 
+    try {
       await axios.post('http://localhost:3001/api/register/estudiante', form);
       navigate('/verify');
     } catch (err) {
@@ -106,4 +106,4 @@ export default function RegisterPage() {
       </div>
     </div>
   );
-} 
+}

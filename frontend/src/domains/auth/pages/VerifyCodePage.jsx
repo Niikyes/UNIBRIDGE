@@ -15,7 +15,7 @@ export default function VerifyCodePage() {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setError(''); 
+    setError('');
     try {
       const res = await axios.post('http://localhost:3003/api/verify', form);
       setExito('Cuenta verificada correctamente. Redirigiendo...');

@@ -1,11 +1,11 @@
 
-  import { useState } from 'react';
-  import axios from 'axios';
+import { useState } from 'react';
+import axios from 'axios';
 
 export default function PasswordRequestResetPage() {
-    const [email, setEmail] = useState('');
-    const [mensaje, setMensaje] = useState('');
-    const [error, setError] = useState('');
+  const [email, setEmail] = useState('');
+  const [mensaje, setMensaje] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -35,4 +35,4 @@ export default function PasswordRequestResetPage() {
       </div>
     </div>
   );
-  }
+}

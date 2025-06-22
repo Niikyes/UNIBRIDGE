@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
@@ -19,7 +20,7 @@ export default function LoginPage() {
     try {
       const response = await axios.post('http://localhost:3004/api/login', form);
       const userData = response.data;
-        login(userData);
+      login(userData);
       navigate(`/${userData.role}/${encodeURIComponent(userData.nickname)}`);
     } catch (err) {
       setError(err.response?.data?.message || 'Credenciales inválidas');
@@ -53,4 +54,4 @@ export default function LoginPage() {
       </div>
     </div>
   );
-  }
+}

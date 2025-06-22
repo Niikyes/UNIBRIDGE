@@ -28,7 +28,7 @@ function App() {
           <Route path="/register/empresa" element={<RegisterEmpresaPage />} />
           <Route path="/verify" element={<VerifyCodePage />} />
           <Route path="/request-reset" element={<PasswordRequestResetPage />} />
-          <Route path="/reset" element={<PasswordResetPage />} /> 
+          <Route path="/reset" element={<PasswordResetPage />} />
           <Route path="/estudiante/:nick" element={<ProtectedRoute requiredRole="estudiante"><EstudianteDashboard /></ProtectedRoute>} />
           <Route path="/empresa/:nick" element={<ProtectedRoute requiredRole="empresa"><EmpresaDashboard /></ProtectedRoute>} />
           <Route path="/coordinador/:nick" element={<ProtectedRoute requiredRole="coordinador"><CoordinadorDashboard /></ProtectedRoute>} />
