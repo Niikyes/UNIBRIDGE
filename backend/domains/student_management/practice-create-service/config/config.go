@@ -41,5 +41,5 @@ func ConnectDB() {
 	}
 
 	DB = conn
-	fmt.Println("✅ Connected to PostgreSQL")
+	fmt.Println("Connected to PostgreSQL")
 }

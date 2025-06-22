@@ -1,6 +1,6 @@
 
-  const { DataTypes } = require('sequelize');
-  const { sequelize } = require('../config/database');
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database');
 
 const User = sequelize.define('User', {
   id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
@@ -16,6 +16,6 @@ const User = sequelize.define('User', {
 }, {
   tableName: 'users',
   timestamps: false
-  });
+});
 
-  module.exports = User;
+module.exports = User;
