@@ -1,22 +1,26 @@
-from fastapi import APIRouter, HTTPException
-from app.db import get_connection
-from app.models import Vacancy
+from fastapi import APIRouter
+from app.db import get_db_connection
+from fastapi.responses import JSONResponse
 
 router = APIRouter()
 
-@router.get("/api/vacancies", response_model=list[Vacancy])
-def get_all_vacancies():
+@router.get("/api/vacancies")
+def get_vacancies():
     try:
-        conn = get_connection()
-        cursor = conn.cursor()
-        cursor.execute("""
-            SELECT id, titulo, descripcion, empresa_id, ciudad, carrera, estado, fecha_publicacion
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT id, titulo, descripcion, habilidades, carreras_destino
             FROM vacantes
-            WHERE estado = 'activa'
+            WHERE estado = 'publicada';
         """)
-        rows = cursor.fetchall()
-        cursor.close()
+        data = cur.fetchall()
+        cur.close()
         conn.close()
-        return rows
+        return JSONResponse(content=data)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error retrieving vacancies: {str(e)}")
+        print("ERROR:", str(e))
+        return JSONResponse(status_code=500, content={"detail": f"Error retrieving vacancies: {str(e)}"})
+
+
+

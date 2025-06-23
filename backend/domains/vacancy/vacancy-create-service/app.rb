@@ -1,82 +1,90 @@
-# encoding: utf-8
-
-require 'sinatra' 
+require 'sinatra'
+require 'sinatra/json'
 require 'pg'
-require 'json'
+require 'dotenv/load'
+require 'securerandom'
 require 'net/http'
 require 'uri'
-require 'dotenv/load'
+require 'json'
 
-# Conexión a PostgreSQL
+# DB connection
 def db_connection
-  PG.connect(ENV['DB_URL'])
+  PG.connect(
+    host: ENV['DB_HOST'],
+    dbname: ENV['DB_NAME'],
+    user: ENV['DB_USER'],
+    password: ENV['DB_PASSWORD'],
+    port: ENV['DB_PORT']
+  )
 end
 
-# Validar si empresa_id existe en user_db (usando get-service)
-def empresa_valida?(empresa_id)
-  url = URI("http://localhost:3011/api/empresas/empresa/#{empresa_id}")
-  res = Net::HTTP.get_response(url)
-  res.is_a?(Net::HTTPSuccess)
+# Validación de UUID
+def valid_uuid?(uuid)
+  uuid.match?(/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/)
 end
 
-# Validar si carrera_id existe localmente en unibridge_business
-def carrera_valida?(carrera_id)
-  conn = db_connection
-  result = conn.exec_params('SELECT 1 FROM carreras WHERE id = $1 LIMIT 1', [carrera_id])
-  conn.close
-  result.ntuples > 0
-end
+# Ruta para crear una vacante
+# ...existing code...
 
-# Endpoint para crear vacante
 post '/api/vacancies' do
-  content_type :json
+  vacante = JSON.parse(request.body.read)
+
+  # Validar campos requeridos
+  required_fields = %w[titulo descripcion modalidad ubicacion fecha_inicio fecha_fin carreras_destino habilidades empresa_id]
+  missing = required_fields.select { |f| vacante[f].nil? || vacante[f].to_s.strip.empty? }
+  unless missing.empty?
+    halt 400, json(error: "Faltan campos requeridos: #{missing.join(', ')}")
+  end
+
+  # Validar formato de UUID
+  unless valid_uuid?(vacante['empresa_id'])
+    halt 400, json(error: "Formato de empresa_id inválido")
+  end
+
+  conn = db_connection
+
   begin
-    data = JSON.parse(request.body.read)
+    puts "Validando empresa con ID: #{vacante['empresa_id']}"
+    uri = URI("http://localhost:3011/api/empresas/#{vacante['empresa_id']}")
 
-    required_fields = %w[titulo descripcion empresa_id ciudad carrera_id estado fecha_publicacion]
-    missing_fields = required_fields.select { |f| data[f].nil? || data[f].strip.empty? }
-    unless missing_fields.empty?
-      status 400
-      return { error: "Campos requeridos faltantes: #{missing_fields.join(', ')}" }.to_json
+    response = Net::HTTP.get_response(uri)
+    puts "Respuesta desde get-service: #{response.code}"
+
+    if response.code != '200'
+      halt 404, json(error: "Empresa no encontrada o no aprobada")
     end
 
-    unless empresa_valida?(data['empresa_id'])
-      status 404
-      return { error: "Empresa no encontrada en user_db" }.to_json
-    end
-
-    unless carrera_valida?(data['carrera_id'])
-      status 404
-      return { error: "Carrera no encontrada en unibridge_business" }.to_json
-    end
-
-    conn = db_connection
+    puts "Insertando vacante..."
     conn.exec_params(
-      'INSERT INTO vacantes (titulo, descripcion, empresa_id, ciudad, carrera_id, estado, fecha_publicacion)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)',
+      "INSERT INTO vacantes (titulo, descripcion, modalidad, ubicacion, fecha_inicio, fecha_fin, carreras_destino, habilidades, empresa_id, estado)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
       [
-        data['titulo'],
-        data['descripcion'],
-        data['empresa_id'],
-        data['ciudad'],
-        data['carrera_id'],
-        data['estado'],
-        data['fecha_publicacion']
+        vacante['titulo'],
+        vacante['descripcion'],
+        vacante['modalidad'],
+        vacante['ubicacion'],
+        vacante['fecha_inicio'],
+        vacante['fecha_fin'],
+        vacante['carreras_destino'],
+        vacante['habilidades'],
+        vacante['empresa_id'],
+        'publicada'
       ]
     )
-    conn.close
 
     status 201
-    { message: 'Vacancy created successfully' }.to_json
+    json(message: 'Vacante creada correctamente')
 
-  rescue JSON::ParserError
-    status 400
-    { error: 'Formato JSON inválido' }.to_json
   rescue PG::Error => e
+    puts "Error de base de datos: #{e.message}"
     status 500
-    { error: "Error de base de datos: #{e.message}" }.to_json
-  rescue StandardError => e
+    json(error: 'Error al insertar la vacante en la base de datos')
+
+  rescue => e
+    puts "Error general: #{e.message}"
     status 500
-    { error: "Error inesperado: #{e.message}" }.to_json
+    json(error: 'Error interno del servidor')
+  ensure
+    conn.close if conn
   end
 end

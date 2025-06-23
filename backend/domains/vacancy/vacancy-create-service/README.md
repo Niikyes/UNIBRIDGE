@@ -1,53 +1,48 @@
-# Microservice: vacancy-create-service
+# vacancy-create-service
 
-This microservice is part of the UNIBRIDGE platform and allows companies to register new job vacancies.
+This microservice allows companies to publish new internship or job vacancies in the UNIBRIDGE platform.
 
-## 📌 Endpoint
+## Endpoint
 
-**POST** `/api/vacancies`
+### POST `/api/vacancies`
 
-### 🧾 Request Body (JSON)
+Creates a new vacancy in the `vacantes` table.
 
-```json
+**Request JSON:**
+```
 {
-  "titulo": "Backend Developer",
-  "descripcion": "Responsible for maintaining the system APIs.",
-  "empresa_id": 1,
-  "ciudad": "Quito",
-  "carrera": "Software Engineering",
-  "estado": "active",
-  "fecha_publicacion": "2025-06-22"
+  "titulo": "Nombre del cargo",
+  "descripcion": "Detalles de la vacante",
+  "modalidad": "Presencial | Remoto | Híbrido",
+  "ubicacion": "Ciudad o región",
+  "fecha_inicio": "YYYY-MM-DD",
+  "fecha_fin": "YYYY-MM-DD",
+  "carreras_destino": ["Ingeniería en Sistemas"],
+  "habilidades": ["Python", "Trabajo en equipo"],
+  "empresa_id": "UUID",
+  "estado": "publicada"
 }
 ```
 
-### ✅ Successful Response
+**Success Response:**
+- 201 Created: `{ "message": "Vacante creada exitosamente" }`
 
-```json
-{
-  "message": "Vacancy created successfully"
-}
+**Error Responses:**
+- 400 Bad Request: Campos faltantes o UUID inválido.
+- 404 Not Found: Empresa no registrada.
+- 500 Internal Server Error: Error de base de datos.
+
+## Environment
+
+`.env` file must include:
+```
+DB_URL=postgres://postgres:12345@localhost:5432/user_db
+PORT=5005
 ```
 
-## 🛠️ Technologies Used
+## Run
 
-- Language: **Ruby**
-- Framework: **Sinatra**
-- Database: **PostgreSQL**
-- Architecture style: **REST**
-
-## ▶️ Running Locally
-
-1. Install dependencies using `bundle install`
-2. Create a `.env` file with the necessary PostgreSQL connection variables
-3. Run the microservice:
-
-```bash
+```
+bundle install
 ruby app.rb -p 5005
 ```
-
-## 📁 Project Structure
-
-- `app.rb`: Main logic for the endpoint.
-- `config/database.rb`: PostgreSQL connection file.
-- `.env`: Environment variable definitions.
-- `Gemfile`: Dependency declarations.
