@@ -16,6 +16,7 @@ import RegisterChoicePage from './pages/RegisterChoicePage';
 import UnauthorizedPage from './pages/UnauthorizedPage';
 import LandingPage from './pages/LandingPage';
 import { AuthProvider } from './context/AuthContext';
+import SeeVacancies from './pages/Estudiante/SeeVacancies';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/verify" element={<VerifyCodePage />} />
           <Route path="/request-reset" element={<PasswordRequestResetPage />} />
           <Route path="/reset" element={<PasswordResetPage />} />
+          <Route path="/estudiante/vacancies" element={<SeeVacancies />} />
           <Route path="/estudiante/:nick" element={<ProtectedRoute requiredRole="estudiante"><EstudianteDashboard /></ProtectedRoute>} />
           <Route path="/empresa/:nick" element={<ProtectedRoute requiredRole="empresa"><EmpresaDashboard /></ProtectedRoute>} />
           <Route path="/coordinador/:nick" element={<ProtectedRoute requiredRole="coordinador"><CoordinadorDashboard /></ProtectedRoute>} />
@@ -36,6 +38,7 @@ function App() {
           <Route path="/admin_global/:nick" element={<ProtectedRoute requiredRole="admin_global"><AdminGlobalDashboard /></ProtectedRoute>} />
           <Route path="/register" element={<RegisterChoicePage />} />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
+          
         </Routes>
       </AuthProvider>
     </BrowserRouter>

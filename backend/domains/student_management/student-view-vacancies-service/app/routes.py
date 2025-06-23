@@ -4,7 +4,7 @@ from app import config
 
 router = APIRouter()
 
-@router.get("/api/student/vacancies")
+@router.get("/api/estudiante/vacancies")
 async def get_vacancies_for_student():
     try:
         async with httpx.AsyncClient() as client:

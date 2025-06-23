@@ -5,7 +5,7 @@ import os
 def get_user_profile(token: str):
     try:
         payload = jwt.decode(token, os.getenv("JWT_SECRET", "secret_key"), algorithms=["HS256"])
-        user_id = payload.get("user_id")
+        user_id = payload.get("id")
         role = payload.get("role")
     except Exception as e:
         raise Exception("Invalid token") from e

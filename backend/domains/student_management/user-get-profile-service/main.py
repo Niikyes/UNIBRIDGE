@@ -1,7 +1,8 @@
 from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from routers.profile import router as profile_router
-
+from dotenv import load_dotenv
+load_dotenv()
 app = FastAPI(title="User Get Profile Service")
 
 # CORS middleware (optional for local frontend testing)
