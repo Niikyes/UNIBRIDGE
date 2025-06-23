@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  title: Student Apply Vacancy Service
+  version: 1.0.0
+  description: Microservice for students to apply to published internship vacancies.
+paths:
+  /api/apply:
+    post:
+      summary: Apply to a vacancy
+      description: Allows a student to apply to a published vacancy.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                estudiante_id:
+                  type: string
+                  format: uuid
+                vacante_id:
+                  type: integer
+              required:
+              - estudiante_id
+              - vacante_id
+      responses:
+        '201':
+          description: Successful application
+          content:
+            application/json:
+              example:
+                message: "Aplicaci\xF3n exitosa"
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
