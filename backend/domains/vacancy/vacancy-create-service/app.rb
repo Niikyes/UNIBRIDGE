@@ -45,14 +45,17 @@ post '/api/vacancies' do
 
   begin
     puts "Validando empresa con ID: #{vacante['empresa_id']}"
-    uri = URI("http://localhost:3011/api/empresas/#{vacante['empresa_id']}")
-
+    uri = URI("http://localhost:3011/api/empresas/#{vacante['empresa_id']}") 
     response = Net::HTTP.get_response(uri)
     puts "Respuesta desde get-service: #{response.code}"
 
     if response.code != '200'
       halt 404, json(error: "Empresa no encontrada o no aprobada")
     end
+
+    # CONVERSIÓN DE ARRAYS A FORMATO POSTGRESQL
+    carreras_destino_pg = "{#{vacante['carreras_destino'].join(',')}}"
+    habilidades_pg = "{#{vacante['habilidades'].join(',')}}"
 
     puts "Insertando vacante..."
     conn.exec_params(
@@ -65,8 +68,8 @@ post '/api/vacancies' do
         vacante['ubicacion'],
         vacante['fecha_inicio'],
         vacante['fecha_fin'],
-        vacante['carreras_destino'],
-        vacante['habilidades'],
+        carreras_destino_pg, # <-- aquí usas la variable convertida
+        habilidades_pg,      # <-- aquí usas la variable convertida
         vacante['empresa_id'],
         'publicada'
       ]
@@ -87,4 +90,4 @@ post '/api/vacancies' do
   ensure
     conn.close if conn
   end
-end
+end 
