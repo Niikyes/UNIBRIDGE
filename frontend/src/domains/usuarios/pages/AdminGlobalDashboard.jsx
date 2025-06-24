@@ -1,46 +1,45 @@
 
-import { useEffect, useState } from 'react';
-import { validateToken } from '../../../services/authService';
+import { useAuth } from '../../../context/AuthContext';
+import Navbar from '../../../components/Navbar';
+import RoleBasedSidebar from '../../../components/RoleBasedSidebar';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
-export default function AdminglobalDashboard() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+export default function AdminGlobalDashboard() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setError('Token no encontrado.');
-      setLoading(false);
-      return;
+    if (!user || user.role !== "admin_global") {
+      navigate("/unauthorized");
     }
+  }, [user]);
 
-    const fetchData = async () => {
-      try {
-        const data = await validateToken(token);
-        if (data?.valid) {
-          setUser(data);
-        } else {
-          setError('Token inválido.');
-        }
-      } catch (err) {
-        setError('Error al validar token.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) return <p className="text-center mt-10">Cargando...</p>;
-  if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
+  const handleCreateAdminInstitucional = () => {
+    navigate("/admin_global/crear-admin-institucional");
+  };
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold mb-2">Bienvenido, {user.nickname}</h1>
-      <p className="text-gray-600">Rol: {user.role}</p>
-      <p className="text-gray-600">Correo: {user.email}</p>
-    </div>
+  
+     
+      <div className="flex">
+        <RoleBasedSidebar />
+        <div className="p-8 w-full">
+          <h1 className="text-3xl font-bold text-indigo-700 mb-6">Panel de Administración Global</h1>
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="bg-white shadow-md rounded-xl p-6 hover:shadow-lg transition duration-300">
+              <h2 className="text-xl font-semibold mb-2">Crear Admin Institucional</h2>
+              <p className="text-sm text-gray-600 mb-4">Registra nuevos administradores institucionales que gestionarán universidades.</p>
+              <button
+                onClick={handleCreateAdminInstitucional}
+                className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+              >
+                Crear Admin Institucional
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
   );
 }

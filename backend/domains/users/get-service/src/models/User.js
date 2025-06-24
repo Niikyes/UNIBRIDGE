@@ -1,5 +1,6 @@
+
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/db');
+const { sequelize } = require('../config/database');
 
 const User = sequelize.define('User', {
   id: { type: DataTypes.UUID, primaryKey: true },
@@ -14,5 +15,14 @@ const User = sequelize.define('User', {
   tableName: 'users',
   timestamps: false
 });
+
+// Relaciones
+const Estudiante = require('./Estudiante');
+const Empresa = require('./Empresa');
+const Rol = require('./Rol');
+
+User.hasOne(Estudiante, { foreignKey: 'user_id' });
+User.hasOne(Empresa, { foreignKey: 'user_id' });
+User.belongsTo(Rol, { foreignKey: 'role_id' });
 
 module.exports = User;

@@ -1,42 +1,40 @@
+
 const express = require('express');
 const router = express.Router();
 const { updateUser } = require('../controllers/user.controller');
+const authMiddleware = require('../middleware/authMiddleware');
 
 /**
  * @swagger
  * /users/{id}:
  *   put:
- *     summary: Actualizar usuario
+ *     summary: Actualizar usuario (autenticado o administrador)
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
+ *         description: ID del usuario a actualizar
  *         schema:
  *           type: string
- *         description: ID del usuario
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             properties:
- *               nickname:
- *                 type: string
- *               role:
- *                 type: string
- *                 enum: [admin, estudiante, director]
- *               is_verified:
- *                 type: boolean
+ *             description: Campos actualizables según tipo de usuario
  *     responses:
  *       200:
  *         description: Usuario actualizado correctamente
- *       400:
- *         description: Datos inválidos
- *       404:
- *         description: Usuario no encontrado
+ *       401:
+ *         description: Token inválido
+ *       403:
+ *         description: No autorizado
  */
-router.put('/:id', updateUser);
+
+router.put('/:id', authMiddleware, updateUser);
 
 module.exports = router;

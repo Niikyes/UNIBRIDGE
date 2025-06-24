@@ -1,26 +1,32 @@
+
 const express = require('express');
 const router = express.Router();
-const { disableUser } = require('../controllers/user.controller');
+const { updateUserStatus } = require('../controllers/user.controller');
+const authMiddleware = require('../middleware/authMiddleware');
 
 /**
  * @swagger
- * /users/{id}/disable:
- *   put:
- *     summary: Inhabilitar usuario
+ * /users/{id}:
+ *   patch:
+ *     summary: Cambiar estado del usuario
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
  *         schema:
  *           type: string
- *         description: ID del usuario
  *     responses:
  *       200:
- *         description: Usuario inhabilitado correctamente
+ *         description: Acción ejecutada correctamente
+ *       403:
+ *         description: No autorizado
  *       404:
  *         description: Usuario no encontrado
  */
-router.put('/:id/disable', disableUser);
+
+router.patch('/:id', authMiddleware, updateUserStatus);
 
 module.exports = router;

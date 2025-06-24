@@ -1,13 +1,14 @@
+
 const express = require('express');
 const router = express.Router();
 const accessController = require('../controllers/access.controller');
-const verifyToken = require('../middleware/auth');
+const authMiddleware = require('../middleware/authMiddleware');
 
 /**
  * @swagger
  * /access:
  *   post:
- *     summary: Verifica acceso según el rol requerido
+ *     summary: Verifica si el usuario autenticado tiene acceso al rol requerido
  *     tags: [Access]
  *     security:
  *       - bearerAuth: []
@@ -17,20 +18,19 @@ const verifyToken = require('../middleware/auth');
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - requiredRole
  *             properties:
  *               requiredRole:
  *                 type: string
- *                 enum: [admin, estudiante, director]
+ *                 example: coordinador
  *     responses:
  *       200:
  *         description: Acceso permitido
  *       403:
  *         description: Acceso denegado
  *       401:
- *         description: Token inválido
+ *         description: Token inválido o faltante
  */
-router.post('/', verifyToken, accessController);
+
+router.post('/', authMiddleware, accessController);
 
 module.exports = router;

@@ -1,7 +1,10 @@
+
 const Joi = require('joi');
 
-const roleSchema = Joi.object({
-  role: Joi.string().valid('admin', 'estudiante', 'director').required()
+const schema = Joi.object({
+  role: Joi.string().valid('admin_institucional', 'coordinador').required()
 });
 
-module.exports = roleSchema;
+module.exports = {
+  validate: (data) => schema.validate(data)
+};

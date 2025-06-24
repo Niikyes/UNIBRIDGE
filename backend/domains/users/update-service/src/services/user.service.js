@@ -1,18 +1,42 @@
+
 const User = require('../models/User');
-const validate = require('../utils/validateUpdate');
+const Estudiante = require('../models/Estudiante');
+const Empresa = require('../models/Empresa');
 
-module.exports = async function updateUserService(id, data) {
-  const { error, value } = validate.validate(data);
-  if (error) throw { status: 400, message: error.details[0].message };
+module.exports = async (userId, body) => {
+  const user = await User.findByPk(userId);
+  if (!user) throw { status: 404, message: 'User not found' };
 
-  const user = await User.findByPk(id);
-  if (!user) throw { status: 404, message: 'Usuario no encontrado' };
+  const { nickname, email, ...rest } = body;
 
-  if (value.role) {
-    value.role_id = value.role === 'admin' ? 1 : value.role === 'director' ? 2 : 3;
-    delete value.role;
+  // Actualizar datos principales de usuario si se proveen
+  if (nickname) user.nickname = nickname;
+  if (email) user.email = email;
+  await user.save();
+
+  // Buscar tipo de usuario
+  const estudiante = await Estudiante.findOne({ where: { user_id: userId } });
+  const empresa = await Empresa.findOne({ where: { user_id: userId } });
+
+  if (estudiante) {
+    await estudiante.update({
+      cedula: rest.cedula || estudiante.cedula,
+      fecha_nacimiento: rest.fecha_nacimiento || estudiante.fecha_nacimiento,
+      telefono: rest.telefono || estudiante.telefono,
+      carrera_id: rest.carrera_id || estudiante.carrera_id,
+      facultad_id: rest.facultad_id || estudiante.facultad_id,
+      universidad_id: rest.universidad_id || estudiante.universidad_id
+    });
   }
 
-  await user.update(value);
-  return { message: 'Usuario actualizado correctamente' };
+  if (empresa) {
+    await empresa.update({
+      nombre_empresa: rest.nombre_empresa || empresa.nombre_empresa,
+      telefono: rest.telefono || empresa.telefono,
+      direccion: rest.direccion || empresa.direccion,
+      ruc: rest.ruc || empresa.ruc
+    });
+  }
+
+  return { message: 'User updated successfully' };
 };

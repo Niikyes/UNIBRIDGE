@@ -1,14 +1,26 @@
-
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import axios from 'axios';
 
 export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [mensaje, setMensaje] = useState(location.state?.mensaje || '');
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
+
+  // Ocultar mensaje automáticamente después de 4 segundos
+  useEffect(() => {
+    if (mensaje) {
+      const timer = setTimeout(() => {
+        setMensaje('');
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [mensaje]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -31,7 +43,10 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gradient-to-r from-indigo-500 to-blue-500 flex items-center justify-center px-4">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
         <h1 className="text-2xl font-bold mb-4 text-center text-indigo-700">Iniciar Sesión</h1>
+
+        {mensaje && <p className="text-green-600 text-sm mb-4 text-center">{mensaje}</p>}
         {error && <p className="text-red-500 mb-4 text-sm text-center">{error}</p>}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <input type="email" name="email" placeholder="Correo" value={form.email}
             onChange={handleChange} className="w-full p-2 border rounded" required />

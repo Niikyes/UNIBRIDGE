@@ -1,15 +1,24 @@
+
 const User = require('../models/User');
+const Estudiante = require('../models/Estudiante');
+const Empresa = require('../models/Empresa');
+const Rol = require('../models/Rol');
 
 module.exports = async function getUserService({ id, email }) {
-  if (id) {
-    const user = await User.findByPk(id);
-    if (!user) throw { status: 404, message: 'Usuario no encontrado' };
-    return user;
-  }
-  if (email) {
-    const user = await User.findOne({ where: { email } });
-    if (!user) throw { status: 404, message: 'Usuario no encontrado' };
-    return user;
-  }
-  return await User.findAll();
+  const whereClause = {};
+  if (id) whereClause.id = id;
+  if (email) whereClause.email = email;
+
+  const users = await User.findAll({
+    where: whereClause,
+    include: [
+      { model: Estudiante },
+      { model: Empresa },
+      { model: Rol }
+    ]
+  });
+
+  if (!users.length) throw { status: 404, message: 'Usuario no encontrado' };
+
+  return id || email ? users[0] : users;
 };
