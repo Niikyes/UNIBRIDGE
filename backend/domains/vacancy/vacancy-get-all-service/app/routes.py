@@ -15,21 +15,23 @@ def get_vacancies():
             WHERE estado = 'publicada';
         """)
         rows = cur.fetchall()
-        columns = [desc[0] for desc in cur.description]
-
+        
         # Transformar arrays PostgreSQL (text[]) a listas
         data = []
-        for row in rows:
-            row_dict = dict(zip(columns, row))
-            # Forzar que sean listas si no lo detecta bien
+        for row_dict in rows:
+            # Convertir arrays string a lista si fuera necesario
             if isinstance(row_dict["habilidades"], str):
                 row_dict["habilidades"] = row_dict["habilidades"].strip('{}').split(',')
             if isinstance(row_dict["carreras_destino"], str):
                 row_dict["carreras_destino"] = row_dict["carreras_destino"].strip('{}').split(',')
+
             data.append(row_dict)
 
         cur.close()
         conn.close()
+
+        print("Vacantes reales:", data)  # Debug final
+        
         return JSONResponse(content=data)
 
     except Exception as e:

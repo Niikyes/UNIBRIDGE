@@ -4,37 +4,62 @@ import axios from "axios";
 import Navbar from "../../../components/Navbar";
 import RoleBasedSidebar from "../../../components/RoleBasedSidebar";
 import { useAuth } from "../../../context/AuthContext";
+import { toast } from "react-toastify"; // ✅ IMPORTANTE
 
 export default function SeeVacancies() {
-  const { user } = useAuth();
+  const { user, updateProfile } = useAuth();
   const navigate = useNavigate();
   const { nick } = useParams();
   const [vacantes, setVacantes] = useState([]);
   const [filtroCarrera, setFiltroCarrera] = useState("");
 
-  // Redirigir si no hay usuario autenticado
   useEffect(() => {
     if (!user) {
       navigate("/login");
     }
   }, [user, navigate]);
 
-  // Obtener vacantes
+  useEffect(() => {
+    updateProfile();
+  }, []);
+
   useEffect(() => {
     const fetchVacantes = async () => {
       try {
         const response = await axios.get("http://localhost:5004/api/estudiante/vacancies");
-        console.log("Vacantes obtenidas:", response.data);
         setVacantes(response.data);
       } catch (error) {
         console.error("Error al obtener vacantes:", error);
+        toast.error("Error al cargar las vacantes");
       }
     };
 
     fetchVacantes();
   }, []);
 
-  // Filtro por carrera
+  const handlePostularse = async (vacanteId) => {
+    if (!user || !user.estudiante_id) {
+      toast.error("No se encontró tu ID de estudiante. Revisa tu perfil o vuelve a iniciar sesión.");
+      return;
+    }
+
+    try {
+      await axios.post("http://localhost:3020/api/apply", {
+        estudiante_id: user.estudiante_id,
+        vacante_id: vacanteId,
+      });
+
+      toast.success("¡Postulación exitosa!");
+    } catch (error) {
+      console.error("Error al postularse:", error);
+      if (error.response && error.response.status === 409) {
+        toast.warn("Ya te has postulado a esta vacante");
+      } else {
+        toast.error("Ocurrió un error al postularse");
+      }
+    }
+  };
+
   const vacantesFiltradas = vacantes.filter((v) =>
     filtroCarrera === "" ||
     (v.carreras_destino || []).some((carrera) =>
@@ -42,7 +67,9 @@ export default function SeeVacancies() {
     )
   );
 
-  console.log("Renderizando SeeVacancies para:", nick);
+  if (!user) {
+    return null;
+  }
 
   return (
     <>
@@ -76,7 +103,7 @@ export default function SeeVacancies() {
                 </p>
                 <button
                   className="mt-3 bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700"
-                  onClick={() => alert("Postularse aún no implementado")}
+                  onClick={() => handlePostularse(vacante.id)}
                 >
                   Postularse
                 </button>
@@ -88,3 +115,7 @@ export default function SeeVacancies() {
     </>
   );
 }
+
+
+
+

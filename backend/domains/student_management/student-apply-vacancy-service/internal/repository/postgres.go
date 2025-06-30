@@ -23,4 +23,14 @@ func SavePostulacion(db *sql.DB, p domain.Postulacion) error {
     `
     _, err := db.ExecContext(context.Background(), query, p.EstudianteID, p.VacanteID, p.Estado)
     return err
+
+}
+
+func CheckExistingPostulacion(db *sql.DB, estudianteID string, vacanteID int) (bool, error) {
+    var count int
+    err := db.QueryRow("SELECT COUNT(*) FROM postulaciones WHERE estudiante_id = $1 AND vacante_id = $2", estudianteID, vacanteID).Scan(&count)
+    if err != nil {
+        return false, err
+    }
+    return count > 0, nil
 }

@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginPage from './domains/auth/pages/LoginPage';
 import RegisterPage from './domains/auth/pages/RegisterPage';
@@ -23,9 +22,12 @@ import VerUsuariosPage from './domains/admin/pages/VerUsuariosPage';
 import HabilitarEmpresasPage from './domains/usuarios/pages/HabilitarEmpresasPage';
 import CrearCoordinadorPage from './domains/usuarios/pages/CrearCoordinadorPage';
 import CrearAdminInstitucionalPage from './domains/admin/pages/CrearAdminInstitucionalPage';
-import SeeVacancies from './domains/Estudiante/page/SeeVacancies'
+import SeeVacancies from './domains/Estudiante/page/SeeVacancies';
 import LandingPage from './pages/LandingPage';
-import { AuthProvider } from './context/AuthContext'; 
+import { AuthProvider } from './context/AuthContext';
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -57,9 +59,11 @@ function App() {
           <Route path="/admin_global/carreras" element={<VerCarrerasPage />} />
           <Route path="/admin_global/empresas" element={<VerEmpresasPage />} />
         </Routes>
+        <ToastContainer />
       </AuthProvider>
     </BrowserRouter>
   );
 }
 
 export default App;
+

@@ -15,8 +15,19 @@ import (
 func NewRouter(db *sql.DB) *mux.Router {
     router := mux.NewRouter()
 
+    // Handler para OPTIONS global
+    router.Methods("OPTIONS").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Access-Control-Allow-Origin", "*")
+        w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+        w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        w.WriteHeader(http.StatusOK)
+    })
+
     // POST /api/apply endpoint
     router.HandleFunc("/api/apply", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Access-Control-Allow-Origin", "*")
+        w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
         var cmd command.ApplyPostulacionCommand
 
         // Decode JSON body
@@ -39,9 +50,13 @@ func NewRouter(db *sql.DB) *mux.Router {
         // Execute business logic
         err := usecase.ApplyToVacancy(db, cmd)
         if err != nil {
-            http.Error(w, err.Error(), http.StatusInternalServerError)
-            return
-        }
+        if err.Error() == "already_applied" {
+        http.Error(w, "You have already applied to this vacancy", http.StatusConflict)
+        return
+    }
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+}
 
         // Success response
         w.WriteHeader(http.StatusCreated)
