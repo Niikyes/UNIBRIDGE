@@ -27,7 +27,7 @@ start cmd /k "cd /d C:\Users\Nicole\Desktop\Programacion Distribuida\UNIBRIDGE\b
 echo Iniciando microservicios STUDENT_MANAGEMENT...
 start cmd /k "cd /d C:\Users\Nicole\Desktop\Programacion Distribuida\UNIBRIDGE\backend\domains\student_management\student-apply-vacancy-service && go run ./cmd/main.go"
 start cmd /k "cd /d C:\Users\Nicole\Desktop\Programacion Distribuida\UNIBRIDGE\backend\domains\student_management\student-view-vacancies-service && uvicorn app.main:app --reload --port 5004"
-start cmd /k "cd /d C:\Users\Nicole\Desktop\Programacion Distribuida\UNIBRIDGE\backend\domains\student_management\user-get-profile-service && uvicorn app.main:app --reload --port 3021""
+start cmd /k "cd /d C:\Users\Nicole\Desktop\Programacion Distribuida\UNIBRIDGE\backend\domains\student_management\user-get-profile-service && uvicorn main:app --reload --port 3021"
 
 echo Iniciando FRONTEND...
 start cmd /k "cd /d C:\Users\Nicole\Desktop\Programacion Distribuida\UNIBRIDGE\frontend && npm run dev"
