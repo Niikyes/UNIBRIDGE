@@ -1,46 +1,54 @@
-# student-apply-vacancy-service
+# Microservice: Student Apply Vacancy Service
 
-This microservice allows a student to apply to a published internship vacancy.
+## 🧩 Description
 
-## 🛠 Technologies
+This microservice belongs to the **Student Management** domain of UNIBRIDGE. Its main function is to allow a student to apply for a published vacancy, recording the application in the database.
 
-- Language: Go
-- Architecture: Clean Architecture
-- Style: Event-Driven Ready (currently HTTP REST)
-- Pattern: Command Pattern
-- Database: PostgreSQL (`user_db`)
-- Communication: HTTP (future support for RabbitMQ)
+## ⚙️ Architecture style
 
-## 📌 Endpoint
+The microservice uses **Clean Architecture**, separating external dependencies from core business logic. This enhances maintainability, scalability, and testability.
 
-### POST `/api/apply`
+- **cmd/**: Contains the main entry point (`main.go`).
+- **config/**: Loads and manages system configurations (ports, database).
+- **internal/domain/**: Defines core entities and domain models.
+- **internal/repository/**: Implements persistence (PostgreSQL).
+- **internal/usecase/**: Contains central business logic (use cases).
+- **internal/command/**: Implements the Command pattern for the apply action.
+- **internal/handler/**: Defines HTTP controllers and routers.
 
-Allows a student to apply for a specific vacancy.
+## 🗂️ Folder-level architecture
 
-#### Request Body
-
-```json
-{
-  "estudiante_id": "uuid",
-  "vacante_id": 1
-}
+```markdown
+student-apply-vacancy-service/
+├── .env
+├── go.mod
+├── go.sum
+├── README.md
+├── swagger.yaml
+├── cmd/
+│   └── main.go
+├── config/
+│   └── config.go
+├── internal/
+│   ├── command/
+│   │   └── apply_command.go
+│   ├── domain/
+│   │   └── model.go
+│   ├── handler/
+│   │   └── http_handler.go
+│   ├── repository/
+│   │   └── postgres.go
+│   └── usecase/
+│       └── apply.go
 ```
 
-#### Response
+## 💡 Design patterns applied
 
-```json
-{
-  "message": "Aplicación exitosa"
-}
-```
+- **Clean Architecture:** Isolates business logic from infrastructure details.
+- **SRP:** Each file and package has a single, clear responsibility.
+- **Command Pattern:** Encapsulates the application request as a command.
 
-## ✅ Requirements
+## 🔗 Communication with other microservices
 
-- An existing student in the `estudiantes` table
-- An existing vacancy in the `vacantes` table
-- PostgreSQL connection configured in `.env`
+Currently, it does not directly communicate with other microservices. It exposes an HTTP REST endpoint to be consumed by the frontend or other services to create applications.
 
-## 🧪 Testing with Postman
-
-1. Run the service: `go run ./cmd/main.go`
-2. POST to `http://localhost:3008/api/apply` with a valid body.

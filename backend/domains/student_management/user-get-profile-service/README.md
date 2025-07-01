@@ -1,68 +1,40 @@
-# user-get-profile-service
+# Microservice: User Get Profile Service
 
-This microservice allows retrieving the authenticated user's profile based on a JWT token. It was created specifically to support the frontend functionality of the `student-apply-vacancy-service` by providing student details securely.
+## 🧩 Description
 
-## 🚀 Technologies
+This microservice belongs to the **Users** domain of UNIBRIDGE. Its main purpose is to retrieve and return the complete profile of the authenticated user, including extra information depending on their role (student, company, etc.).
 
-- **Language**: Python
-- **Framework**: FastAPI
-- **Database**: PostgreSQL (`user_db`)
-- **Authentication**: JWT (`Authorization: Bearer <token>`)
-- **Docs**: Swagger UI (auto-generated at `/docs`)
+## ⚙️ Architecture style
 
-## ⚙️ Architecture
+The microservice uses a **modular architecture with FastAPI**, separating routes, services, and the main entry file for clarity and maintainability.
 
-- **Style**: REST (HTTP + JSON)
-- **Internal Architecture**: Modular (Router + Services)
-- **Design Patterns**:
-  - Service Layer
-  - KISS
-  - DRY
-  - POLA
-  - Token-Based Authentication
+- **main.py**: Application entry point and general configuration.
+- **routers/**: Defines routes and basic validations.
+- **services/**: Contains business logic to decode the token and query the database.
 
-## 📌 Endpoint
+## 🗂️ Folder-level architecture
 
-### `GET /api/profile`
-
-Returns user information based on the JWT token.
-
-#### Headers
-
-```
-Authorization: Bearer <jwt_token>
+```markdown
+user-get-profile-service/
+├── .env
+├── main.py
+├── README.md
+├── requirements.txt
+├── swagger.yaml
+├── routers/
+│   ├── profile.py
+│   └── __pycache__/
+├── services/
+│   ├── profile_service.py
+│   └── __pycache__/
+├── __pycache__/
 ```
 
-#### Example Responses
+## 💡 Design patterns applied
 
-**Estudiante:**
-```json
-{
-  "user_id": "uuid",
-  "nickname": "Nicole",
-  "email": "nicole@correo.com",
-  "role": "estudiante",
-  "estudiante_id": "uuid",
-  "universidad_id": "uuid",
-  "carrera_id": "uuid",
-  "facultad_id": "uuid"
-}
-```
+- **KISS:** Simple and straightforward code.
+- **SRP:** Each module has a single, well-defined responsibility.
 
-**Empresa:**
-```json
-{
-  "user_id": "uuid",
-  "nickname": "TechCorp",
-  "email": "contacto@techcorp.com",
-  "role": "empresa",
-  "empresa_id": "uuid",
-  "esta_aprobada": true
-}
-```
+## 🔗 Communication with other microservices
 
-## 🧪 Run locally
-
-```bash
-uvicorn main:app --reload
-```
+It does not currently communicate directly with other microservices but exposes a REST endpoint to be consumed by the frontend and other services to retrieve the detailed profile of the authenticated user.

@@ -1,26 +1,41 @@
-const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
 const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Auth Register Service API',
+      title: 'Register Service API',
       version: '1.0.0',
-      description: 'Microservicio para el registro de usuarios',
+      description: 'API documentation for the register microservice in the Auth domain of UNIBRIDGE.',
     },
     servers: [
       {
-        url: 'http://localhost:3001/api'
-      }
-    ]
+        url: 'http://localhost:3001/api',
+        description: 'Local server',
+      },
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
-  apis: ['./src/routes/*.js']
+  apis: ['./src/routes/*.js'],
 };
 
-const swaggerSpec = swaggerJsDoc(options);
+const swaggerSpec = swaggerJsdoc(options);
 
 module.exports = {
   swaggerUi,
-  swaggerSpec
+  swaggerSpec,
 };

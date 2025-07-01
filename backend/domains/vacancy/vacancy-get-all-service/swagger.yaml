@@ -4,7 +4,7 @@ info:
   version: "1.0"
   description: API to retrieve all active job vacancies.
 servers:
-  - url: http://localhost:8000
+  - url: http://localhost:5100
 paths:
   /api/vacancies:
     get:
