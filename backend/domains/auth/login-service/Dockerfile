@@ -1,27 +1,11 @@
-# Use official Node.js LTS image
-FROM node:20-alpine
-
-# Set environment to production
+# auth/auth-verify-service-service/Dockerfile
+FROM node:lts-alpine
 ENV NODE_ENV=production
-
-# Set working directory
-WORKDIR /app
-
-# Copy package files first
-COPY package*.json ./
-
-# Install production dependencies using clean install
-RUN npm ci --only=production
-
-# Copy source code
-COPY server.js ./
-COPY src ./src
-COPY swagger ./swagger
-
-# Expose port
+WORKDIR /usr/src/app
+COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
+RUN npm install --production --silent && mv node_modules ../
+COPY . .
 EXPOSE 3004
-
-# Start service
+RUN chown -R node /usr/src/app
+USER node
 CMD ["node", "server.js"]
-
-

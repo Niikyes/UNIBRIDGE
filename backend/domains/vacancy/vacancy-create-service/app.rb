@@ -24,7 +24,6 @@ def valid_uuid?(uuid)
 end
 
 # Ruta para crear una vacante
-# ...existing code...
 
 post '/api/vacancies' do
   vacante = JSON.parse(request.body.read)
@@ -68,8 +67,8 @@ post '/api/vacancies' do
         vacante['ubicacion'],
         vacante['fecha_inicio'],
         vacante['fecha_fin'],
-        carreras_destino_pg, # <-- aquí usas la variable convertida
-        habilidades_pg,      # <-- aquí usas la variable convertida
+        carreras_destino_pg, 
+        habilidades_pg,      
         vacante['empresa_id'],
         'publicada'
       ]
