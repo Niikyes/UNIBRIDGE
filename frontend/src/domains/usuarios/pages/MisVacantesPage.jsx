@@ -3,6 +3,7 @@ import axios from "axios";
 import Navbar from "../../../components/Navbar";
 import RoleBasedSidebar from "../../../components/RoleBasedSidebar";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom"; // 👈 Importar Link
 
 export default function MisVacantesPage() {
   const [vacantes, setVacantes] = useState([]);
@@ -19,7 +20,6 @@ export default function MisVacantesPage() {
           return;
         }
 
-        // Aquí corregimos: usar empresaId en la URL
         const res = await axios.get(`http://localhost:5100/api/vacancies/empresa/${empresaId}`);
         setVacantes(res.data);
       } catch (error) {
@@ -64,6 +64,13 @@ export default function MisVacantesPage() {
                   <p className="text-sm">
                     <strong>Carreras destino:</strong> {(v.carreras_destino || []).join(", ")}
                   </p>
+
+                  {/* Botón Ver postulados */}
+                  <Link to={`/empresa/vacantes/${v.id}/postulados`}>
+                    <button className="mt-3 bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">
+                      Ver postulados
+                    </button>
+                  </Link>
                 </div>
               ))}
             </div>
@@ -73,6 +80,7 @@ export default function MisVacantesPage() {
     </>
   );
 }
+
 
 
 

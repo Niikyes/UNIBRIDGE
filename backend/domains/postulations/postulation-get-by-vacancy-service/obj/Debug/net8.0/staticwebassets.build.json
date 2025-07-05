@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "t5SKI3+Ipgh1ujI/xcv8q1GXzEgxPJrIdKYwqNsuiX8=",
+  "Source": "postulation-get-by-vacancy-service",
+  "BasePath": "_content/postulation-get-by-vacancy-service",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

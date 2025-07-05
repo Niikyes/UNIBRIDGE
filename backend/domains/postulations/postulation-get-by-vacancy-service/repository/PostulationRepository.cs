@@ -20,7 +20,7 @@ namespace postulation_get_by_vacancy_service.repository
             conn.Open();
 
             using var cmd = new NpgsqlCommand(@"
-                SELECT id, estudiante_id, vacante_id, estado, fecha_postulacion, comentarios
+                SELECT id, estudiante_id, vacante_id, fecha_postulacion, estado
                 FROM postulaciones
                 WHERE vacante_id = @vacanteId;
             ", conn);
@@ -33,11 +33,10 @@ namespace postulation_get_by_vacancy_service.repository
                 postulations.Add(new Postulation
                 {
                     Id = reader.GetInt32(0),
-                    EstudianteId = reader.GetInt32(1),
+                    EstudianteId = reader.GetGuid(1),
                     VacanteId = reader.GetInt32(2),
-                    Estado = reader.GetString(3),
-                    FechaPostulacion = reader.GetString(4),
-                    Comentarios = reader.IsDBNull(5) ? "" : reader.GetString(5)
+                    FechaPostulacion = reader.GetDateTime(3),
+                    Estado = reader.GetString(4)
                 });
             }
 

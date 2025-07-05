@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\postulation-get-by-vacancy-service.props" />
+</Project>
