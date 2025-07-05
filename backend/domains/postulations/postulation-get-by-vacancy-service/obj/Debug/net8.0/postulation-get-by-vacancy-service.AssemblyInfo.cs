@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("postulation-get-by-vacancy-service")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fec300734edddfe6ed170235bbde01e26d3b79ee")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0093f65fc8c6bf00dcf8e87a99401ed9e25e2195")]
 [assembly: System.Reflection.AssemblyProductAttribute("postulation-get-by-vacancy-service")]
 [assembly: System.Reflection.AssemblyTitleAttribute("postulation-get-by-vacancy-service")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
