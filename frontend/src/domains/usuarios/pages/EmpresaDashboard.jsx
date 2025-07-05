@@ -1,22 +1,34 @@
-
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useAuth } from '../../../context/AuthContext';
+import Navbar from '../../../components/Navbar';
+import RoleBasedSidebar from '../../../components/RoleBasedSidebar';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function EmpresaDashboard() {
-  const [user, setUser] = useState(null);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    axios.get("http://localhost:3005/api/validate-token", {
-      headers: { Authorization: `Bearer ${{token}}` }
-    }).then(res => setUser(res.data)).catch(console.error);
-  }, []);
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold">Bienvenido/a {user?.nickname}</h1>
-      <p>Email: {user?.email}</p>
-      <p>Rol: {user?.role}</p>
-    </div>
+    <>
+      <Navbar />
+      <div className="flex">
+        <RoleBasedSidebar />
+        <div className="p-4 w-full">
+          <h1 className="text-xl font-bold">Bienvenido, {user?.nickname}</h1>
+          <p className="text-sm">Rol: {user?.role}</p>
+          <p className="text-sm">Correo: {user?.email}</p>
+        </div>
+      </div>
+    </>
   );
 }
+
+
+
+ 

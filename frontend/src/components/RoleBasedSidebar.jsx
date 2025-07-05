@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import LogoutModal from "./LogoutModal";
-import SeeVacancies from "../domains/Estudiante/page/SeeVacancies";
 import {
   FiGrid,
   FiCalendar,
@@ -65,7 +64,10 @@ export default function RoleBasedSidebar() {
                 <SidebarLink icon={<FiFileText />} label="Vacantes" to={`/estudiante/vacancies/${user.nickname}`} />
               )}
               {user.role === "empresa" && (
-                <SidebarLink icon={<FiFileText />} label="Mis Vacantes" to="/empresa/vacantes" />
+                <>
+                  <SidebarLink icon={<FiFileText />} label="Mis Vacantes" to="/empresa/vacantes" />
+                  <SidebarLink icon={<FiFileText />} label="Crear Vacante" to="/empresa/crear-vacante" />
+                </>
               )}
               {user.role === "coordinador" && (
                 <SidebarLink icon={<FiFileText />} label="Coordinador" to={`/coordinador/${user.nickname}`} />
@@ -94,7 +96,7 @@ export default function RoleBasedSidebar() {
             </>
           )}
 
-          {/* Sección Admin Institucional */}
+          {/* Admin Institucional */}
           {user.role === "admin_institucional" && (
             <SidebarLink icon={<FiFolder />} label="Validar Empresas" to="/admin-institucional/validar-empresas" />
           )}
@@ -154,3 +156,4 @@ function SectionHeader({ title, isOpen, toggle }) {
     </button>
   );
 }
+// 

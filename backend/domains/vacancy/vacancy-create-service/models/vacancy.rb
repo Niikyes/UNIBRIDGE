@@ -5,7 +5,7 @@ require 'json'
 
 class Vacancy
   def insert(vacante)
-    conn = DatabaseConnection.connection
+    conn = db_connection
 
     # Validar empresa en microservicio get-service
     uri = URI("http://localhost:3011/api/empresas/#{vacante['empresa_id']}")

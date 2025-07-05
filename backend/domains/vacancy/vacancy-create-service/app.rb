@@ -1,10 +1,9 @@
-require 'sinatra' 
-require 'json'
+require 'sinatra'
 require_relative './config/database'
 require_relative './controllers/vacancy_controller'
 
 # Montar controller
-VacancyController.new
+use VacancyController
 
 # Config
 set :port, ENV['PORT'] || 5005

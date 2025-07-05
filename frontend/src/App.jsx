@@ -25,6 +25,8 @@ import CrearAdminInstitucionalPage from './domains/admin/pages/CrearAdminInstitu
 import SeeVacancies from './domains/Estudiante/page/SeeVacancies';
 import LandingPage from './pages/LandingPage';
 import { AuthProvider } from './context/AuthContext';
+import CreateVacancyPage from './domains/usuarios/pages/CreateVacancyPage';
+
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -58,6 +60,8 @@ function App() {
           <Route path="/admin_global/facultades" element={<VerFacultadesPage />} />
           <Route path="/admin_global/carreras" element={<VerCarrerasPage />} />
           <Route path="/admin_global/empresas" element={<VerEmpresasPage />} />
+          <Route path="/empresa/crear-vacante" element={<ProtectedRoute requiredRole="empresa"><CreateVacancyPage /></ProtectedRoute>} />
+
         </Routes>
         <ToastContainer />
       </AuthProvider>

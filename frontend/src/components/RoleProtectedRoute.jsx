@@ -1,4 +1,3 @@
-
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -8,8 +7,10 @@ export default function RoleProtectedRoute({ children, allowedRoles }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    axios.get("http://localhost:3005/api/validate-token", {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const token = storedUser?.token || localStorage.getItem("token");
+
+    axios.get("http://localhost:3005/api/validate", {
       headers: { Authorization: `Bearer ${token}` }
     }).then(res => {
       setUser(res.data);
@@ -27,3 +28,4 @@ export default function RoleProtectedRoute({ children, allowedRoles }) {
 
   return children;
 }
+
