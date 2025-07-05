@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../../../components/Navbar";
 import RoleBasedSidebar from "../../../components/RoleBasedSidebar";
 import { useAuth } from "../../../context/AuthContext";
-import { toast } from "react-toastify"; // ✅ IMPORTANTE
+import { toast } from "react-toastify";
 
 export default function SeeVacancies() {
   const { user, updateProfile } = useAuth();
@@ -12,6 +12,7 @@ export default function SeeVacancies() {
   const { nick } = useParams();
   const [vacantes, setVacantes] = useState([]);
   const [filtroCarrera, setFiltroCarrera] = useState("");
+  const errorShownRef = useRef(false); // para evitar mostrar error dos veces
 
   useEffect(() => {
     if (!user) {
@@ -30,7 +31,10 @@ export default function SeeVacancies() {
         setVacantes(response.data);
       } catch (error) {
         console.error("Error al obtener vacantes:", error);
-        toast.error("Error al cargar las vacantes");
+        if (!errorShownRef.current) {
+          toast.error("Error al cargar las vacantes");
+          errorShownRef.current = true;
+        }
       }
     };
 
@@ -115,6 +119,8 @@ export default function SeeVacancies() {
     </>
   );
 }
+
+
 
 
 

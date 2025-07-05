@@ -22,7 +22,7 @@ start cmd /k "cd /d C:\Users\Nicole\Desktop\Programacion Distribuida\UNIBRIDGE\b
 
 echo Iniciando microservicios VACANCY...
 start cmd /k "cd /d C:\Users\Nicole\Desktop\Programacion Distribuida\UNIBRIDGE\backend\domains\vacancy\vacancy-create-service && ruby app.rb -p 5005"
-start cmd /k "cd /d C:\Users\Nicole\Desktop\Programacion Distribuida\UNIBRIDGE\backend\domains\vacancy\vacancy-get-all-service && uvicorn app.main:app --reload --port 8000"
+start cmd /k "cd /d C:\Users\Nicole\Desktop\Programacion Distribuida\UNIBRIDGE\backend\domains\vacancy\vacancy-get-all-service && uvicorn app.main:app --reload --port 5100"
 
 echo Iniciando microservicios STUDENT_MANAGEMENT...
 start cmd /k "cd /d C:\Users\Nicole\Desktop\Programacion Distribuida\UNIBRIDGE\backend\domains\student_management\student-apply-vacancy-service && go run ./cmd/main.go"
