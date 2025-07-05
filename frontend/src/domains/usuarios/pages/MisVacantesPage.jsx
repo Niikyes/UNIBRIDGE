@@ -19,7 +19,8 @@ export default function MisVacantesPage() {
           return;
         }
 
-        const res = await axios.get(`http://localhost:5100/api/vacancies/empresa/${empresa_id}`);
+        // Aquí corregimos: usar empresaId en la URL
+        const res = await axios.get(`http://localhost:5100/api/vacancies/empresa/${empresaId}`);
         setVacantes(res.data);
       } catch (error) {
         console.error("Error al obtener vacantes:", error);
@@ -72,5 +73,6 @@ export default function MisVacantesPage() {
     </>
   );
 }
+
 
 

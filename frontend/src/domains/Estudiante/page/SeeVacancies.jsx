@@ -99,6 +99,15 @@ export default function SeeVacancies() {
               <div key={vacante.id} className="border p-4 rounded shadow">
                 <h2 className="text-xl font-bold">{vacante.titulo}</h2>
                 <p className="text-sm text-gray-700">{vacante.descripcion}</p>
+                <p className="mt-1 text-sm">
+                  <strong>Modalidad:</strong> {vacante.modalidad}
+                </p>
+                <p className="text-sm">
+                  <strong>Ubicación:</strong> {vacante.ubicacion}
+                </p>
+                <p className="text-sm">
+                  <strong>Estado:</strong> {vacante.estado}
+                </p>
                 <p className="mt-2 text-sm">
                   <strong>Habilidades:</strong> {(vacante.habilidades || []).join(", ")}
                 </p>
