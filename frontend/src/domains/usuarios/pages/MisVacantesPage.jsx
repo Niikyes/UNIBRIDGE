@@ -66,11 +66,14 @@ export default function MisVacantesPage() {
                   </p>
 
                   {/* Botón Ver postulados */}
-                  <Link to={`/empresa/vacantes/${v.id}/postulados`}>
-                    <button className="mt-3 bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">
-                      Ver postulados
-                    </button>
-                  </Link>
+                  <Link
+  to={`/empresa/vacantes/${v.id}/postulados`}
+  state={{ tituloVacante: v.titulo }}
+>
+  <button className="mt-3 bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">
+    Ver postulados
+  </button>
+</Link>
                 </div>
               ))}
             </div>

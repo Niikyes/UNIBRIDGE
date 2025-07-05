@@ -4,10 +4,13 @@ import Navbar from "../../../components/Navbar";
 import RoleBasedSidebar from "../../../components/RoleBasedSidebar";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 
 export default function VerPostuladosPage() {
   const { vacancyId } = useParams();
   const [postulados, setPostulados] = useState([]);
+  const location = useLocation();
+  const { tituloVacante } = location.state || {}; 
 
   useEffect(() => {
     const fetchPostulados = async () => {
@@ -29,7 +32,9 @@ export default function VerPostuladosPage() {
       <div className="flex">
         <RoleBasedSidebar />
         <div className="flex-1 p-6">
-          <h1 className="text-2xl font-bold mb-4">Estudiantes postulados</h1>
+          <h1 className="text-2xl font-bold mb-4">
+  Estudiantes postulados {tituloVacante ? `en "${tituloVacante}"` : ""}
+</h1>
           {postulados.length === 0 ? (
             <p>No hay estudiantes postulados a esta vacante.</p>
           ) : (
