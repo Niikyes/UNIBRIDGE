@@ -1,26 +1,27 @@
-const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
 const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'User Disable Service API',
+      title: 'Disable Service API',
       version: '1.0.0',
-      description: 'Servicio para inhabilitar usuarios',
+      description: 'API documentation for the disable microservice in the Users domain of UNIBRIDGE.',
     },
     servers: [
       {
-        url: 'http://localhost:3015/api'
-      }
-    ]
+        url: 'http://localhost:3015/api',
+        description: 'Local server',
+      },
+    ],
   },
-  apis: ['./src/routes/*.js']
+  apis: ['./src/routes/*.js'],
 };
 
-const swaggerSpec = swaggerJsDoc(options);
+const swaggerSpec = swaggerJsdoc(options);
 
 module.exports = {
   swaggerUi,
-  swaggerSpec
+  swaggerSpec,
 };

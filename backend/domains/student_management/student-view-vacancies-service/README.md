@@ -1,45 +1,37 @@
-# Student View Vacancies Service
+# Microservice: Student View Vacancies Service
 
-This microservice belongs to the **Student Management Domain** of the UNIBRIDGE platform. It allows students to view all available active vacancies by consuming the `vacancy-get-all-service`.
+## 🧩 Description
 
-## 🧩 Responsibilities
+This microservice belongs to the **Student Management** domain of UNIBRIDGE. Its main function is to allow students to view available vacancies by consuming data from another vacancies microservice.
 
-- Expose an endpoint for students to list all active vacancies.
-- Act as a client to the vacancy service.
-- Return JSON-formatted results from the external microservice.
+## ⚙️ Architecture style
 
-## 🛠 Technologies
+The microservice follows a lightweight architecture with **FastAPI**, using a **modular** style that separates configuration, routes, and the main entry point.
 
-- Language: Python
-- Framework: FastAPI
-- Architecture: REST
-- External communication: HTTP via `httpx`
+- **app/main.py**: Entry point and general FastAPI configuration.
+- **app/routes.py**: Defines routes and logic to consume the external service.
+- **app/config.py**: Configuration for environment variables and external URL.
 
-## 🚀 Endpoint
+## 🗂️ Folder-level architecture
 
-**GET** `/api/student/vacancies`
-
-## ⚙️ Config
-
-The service loads the vacancy URL from the `.env` file:
-
-```env
-VACANCY_SERVICE_URL=http://localhost:8000/api/vacancies
-```
-
-## 📦 Structure
-
-```
+```markdown
 student-view-vacancies-service/
-├── app/
-│   ├── main.py
-│   ├── config.py
-│   └── routes.py
 ├── .env
-├── requirements.txt
 ├── README.md
+├── requirements.txt
+├── swagger.yaml
+├── app/
+│   ├── config.py
+│   ├── main.py
+│   ├── routes.py
+│   └── __pycache__/
 ```
 
-## 📄 License
+## 💡 Design patterns applied
 
-For academic use only as part of the UNIBRIDGE system.
+- **KISS:** Simple and straightforward code.
+- **SRP:** Each module has a single responsibility.
+
+## 🔗 Communication with other microservices
+
+Consumes an external vacancies microservice via HTTP (REST) using `httpx`. It does not directly communicate with other services beyond this consumption.

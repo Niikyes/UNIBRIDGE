@@ -1,26 +1,27 @@
-const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
 const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'User Update Service API',
+      title: 'Update Service API',
       version: '1.0.0',
-      description: 'Servicio para actualizar usuarios',
+      description: 'API documentation for the update microservice in the Users domain of UNIBRIDGE.',
     },
     servers: [
       {
-        url: 'http://localhost:3012/api'
-      }
-    ]
+        url: 'http://localhost:3012/api',
+        description: 'Local server',
+      },
+    ],
   },
-  apis: ['./src/routes/*.js']
+  apis: ['./src/routes/*.js'],
 };
 
-const swaggerSpec = swaggerJsDoc(options);
+const swaggerSpec = swaggerJsdoc(options);
 
 module.exports = {
   swaggerUi,
-  swaggerSpec
+  swaggerSpec,
 };

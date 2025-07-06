@@ -1,48 +1,36 @@
-# vacancy-create-service
+# Microservice: Vacancy Create Service
 
-This microservice allows companies to publish new internship or job vacancies in the UNIBRIDGE platform.
+## 🧩 Description
 
-## Endpoint
+This microservice belongs to the **Vacancy** domain of UNIBRIDGE. Its main function is to create new vacancies on the platform, registering all relevant information such as title, description, requirements, and company relationships.
 
-### POST `/api/vacancies`
+## ⚙️ Architecture style
 
-Creates a new vacancy in the `vacantes` table.
+The microservice is developed with **Sinatra (Ruby)** following a simple modular and REST structure. It separates database configuration from the main application logic.
 
-**Request JSON:**
-```
-{
-  "titulo": "Nombre del cargo",
-  "descripcion": "Detalles de la vacante",
-  "modalidad": "Presencial | Remoto | Híbrido",
-  "ubicacion": "Ciudad o región",
-  "fecha_inicio": "YYYY-MM-DD",
-  "fecha_fin": "YYYY-MM-DD",
-  "carreras_destino": ["Ingeniería en Sistemas"],
-  "habilidades": ["Python", "Trabajo en equipo"],
-  "empresa_id": "UUID",
-  "estado": "publicada"
-}
-```
+- **app.rb**: Main entry point and route definitions.
+- **config/database.rb**: Database connection configuration.
 
-**Success Response:**
-- 201 Created: `{ "message": "Vacante creada exitosamente" }`
+## 🗂️ Folder-level architecture
 
-**Error Responses:**
-- 400 Bad Request: Campos faltantes o UUID inválido.
-- 404 Not Found: Empresa no registrada.
-- 500 Internal Server Error: Error de base de datos.
-
-## Environment
-
-`.env` file must include:
-```
-DB_URL=postgres://postgres:12345@localhost:5432/user_db
-PORT=5005
+```markdown
+vacancy-create-service/
+├── .env
+├── app.rb
+├── Gemfile
+├── Gemfile.lock
+├── package-lock.json
+├── README.md
+├── swagger.yaml
+├── config/
+│   └── database.rb
 ```
 
-## Run
+## 💡 Design patterns applied
 
-```
-bundle install
-ruby app.rb -p 5005
-```
+- **KISS:** Simple and straightforward code.
+- **SRP:** Each file has a specific function (configuration or main logic).
+
+## 🔗 Communication with other microservices
+
+It does not directly communicate with other microservices. It exposes a REST endpoint to be consumed by the frontend or related services to register new vacancies.

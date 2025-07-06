@@ -1,39 +1,41 @@
-# Vacancy Get All Service
+# Microservice: Vacancy Get All Service
 
-This microservice belongs to the **Vacancies Domain** of the UNIBRIDGE platform. It allows retrieving all published job vacancies.
+## 🧩 Description
 
-## 🧩 Responsibilities
+This microservice belongs to the **Vacancy** domain of UNIBRIDGE. Its main function is to fetch and return all registered vacancies on the platform.
 
-- Expose an API to list all active vacancies.
-- Fetch data from PostgreSQL.
-- Return JSON-formatted results.
+## ⚙️ Architecture style
 
-## 🛠 Technologies
+The microservice uses a **modular architecture with FastAPI**, separating configuration, models, routes, and core logic.
 
-- Language: Python
-- Framework: FastAPI
-- Database: PostgreSQL
-- Architecture: REST
+- **app/main.py**: Entry point and main configuration.
+- **app/routes.py**: Defines routes and operations related to vacancies.
+- **app/models.py**: Database models.
+- **app/config.py**: General configuration (environment variables).
+- **app/db.py**: Database connection.
 
-## 🚀 Endpoint
+## 🗂️ Folder-level architecture
 
-**GET** `/api/vacancies`
-
-## 📦 Structure
-
-```
+```markdown
 vacancy-get-all-service/
+├── .env
+├── README.md
+├── requirements.txt
+├── swagger.yaml
 ├── app/
-│   ├── main.py
 │   ├── config.py
 │   ├── db.py
+│   ├── main.py
 │   ├── models.py
-│   └── routes.py
-├── .env
-├── requirements.txt
-├── README.md
+│   ├── routes.py
+│   └── __pycache__/
 ```
 
-## 📄 License
+## 💡 Design patterns applied
 
-For academic use only as part of the UNIBRIDGE system.
+- **KISS:** Simple and straightforward code.
+- **SRP:** Each module has a single, clear responsibility.
+
+## 🔗 Communication with other microservices
+
+It does not directly communicate with other microservices. It exposes a REST endpoint to be consumed by the frontend or other services needing to fetch the list of vacancies.

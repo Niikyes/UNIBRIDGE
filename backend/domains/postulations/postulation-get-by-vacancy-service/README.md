@@ -1,34 +1,35 @@
 # postulation-get-by-vacancy-service
 
-Microservicio para obtener todas las postulaciones de una vacante específica.
+Microservice to retrieve all applications for a specific vacancy.
 
-## 🚀 Descripción
+## 🚀 Description
 
-Permite a la empresa consultar la lista de estudiantes postulados a una vacante publicada.
+Allows a company to query the list of students who have applied to a published vacancy.
 
-## 🧩 Tecnologías
+## 🧩 Technologies
 
 - .NET Core 7
 - PostgreSQL
-- Arquitectura por capas
-- Patrón Repository
+- Layered architecture
+- Repository pattern
 
 ## ⚙️ Endpoints
 
-### GET `/api/postulations/vacancy/{vacanteId}`
+### GET `/api/postulations/vacancy/{vacancyId}`
 
-Obtiene las postulaciones de una vacante.
+Retrieves the applications for a vacancy.
 
-#### Respuesta
+#### Response
 
 ```json
 [
   {
     "id": 1,
-    "estudianteId": 23,
-    "vacanteId": 5,
-    "estado": "pendiente",
-    "fechaPostulacion": "2024-06-25",
-    "comentarios": ""
+    "studentId": 23,
+    "vacancyId": 5,
+    "status": "pending",
+    "applicationDate": "2024-06-25",
+    "comments": ""
   }
 ]
+```

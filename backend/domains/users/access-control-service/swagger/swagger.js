@@ -1,4 +1,4 @@
-const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
 const options = {
@@ -7,29 +7,35 @@ const options = {
     info: {
       title: 'Access Control Service API',
       version: '1.0.0',
-      description: 'Control de acceso basado en roles',
+      description: 'API documentation for the access control microservice in the Users domain of UNIBRIDGE.',
     },
     servers: [
       {
-        url: 'http://localhost:3017/api'
-      }
+        url: 'http://localhost:3017/api',
+        description: 'Local server',
+      },
     ],
     components: {
       securitySchemes: {
         bearerAuth: {
           type: 'http',
-          scheme: 'bearer'
-        }
-      }
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
     },
-    security: [{ bearerAuth: [] }]
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
-  apis: ['./src/routes/*.js']
+  apis: ['./src/routes/*.js'],
 };
 
-const swaggerSpec = swaggerJsDoc(options);
+const swaggerSpec = swaggerJsdoc(options);
 
 module.exports = {
   swaggerUi,
-  swaggerSpec
+  swaggerSpec,
 };

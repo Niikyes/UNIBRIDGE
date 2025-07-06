@@ -7,7 +7,7 @@ Microservice to transform a user ID into detailed user information.
 - Python
 - FastAPI
 - PostgreSQL
-- N-Capas architecture (Controller, Service, DB)
+- N-tier architecture (Controller, Service, DB)
 - KISS & DRY principles
 
 ## How to run
@@ -15,3 +15,4 @@ Microservice to transform a user ID into detailed user information.
 ```bash
 pip install -r requirements.txt
 uvicorn app.main:app --reload --port 5006
+```

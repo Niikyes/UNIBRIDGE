@@ -1,33 +1,30 @@
+
 openapi: 3.0.0
 info:
-  title: User Get Profile Service
-  version: 1.0.0
-  description: Returns user profile based on JWT token (student or company).
+  title: User Get Profile Service API
+  version: "1.0.0"
+  description: API documentation for the user get profile microservice in the Users domain of UNIBRIDGE.
+servers:
+  - url: http://localhost:3021
+    description: Local server
 paths:
-  /api/profile:
+  /api/user/profile:
     get:
       summary: Get authenticated user profile
-      description: Returns detailed user info extracted from JWT.
+      description: Returns the complete profile of the authenticated user, including extra fields depending on their role.
+      tags:
+        - Profile
       parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-        description: Bearer JWT token
+        - name: Authorization
+          in: header
+          required: true
+          description: Bearer JWT token
+          schema:
+            type: string
       responses:
         '200':
-          description: Profile data
-          content:
-            application/json:
-              example:
-                user_id: uuid
-                nickname: Nicole
-                email: nicole@correo.com
-                role: estudiante
-                estudiante_id: uuid
-                universidad_id: uuid
-                carrera_id: uuid
-                facultad_id: uuid
+          description: Successful response with user profile
         '401':
           description: Invalid or missing token
+        '500':
+          description: Internal server error
