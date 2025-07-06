@@ -6,6 +6,6 @@ require_relative './controllers/vacancy_controller'
 use VacancyController
 
 # Config
-set :port, ENV['PORT'] || 5005
+set :port, 5005
 set :bind, '0.0.0.0'
 

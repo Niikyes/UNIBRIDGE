@@ -83,6 +83,41 @@ services:
     depends_on:
       - postgres
 
+  user-get-profile-service:
+    build: ./backend/domains/users/user-get-profile-service
+    ports:
+      - "3021:3021"
+    depends_on:
+      - postgres
+
+  vacancy-get-all-service:
+    build: ./backend/domains/vacancy/vacancy-get-all-service
+    ports:
+      - "5100:5100"
+    depends_on:
+      - postgres
+
+  student-apply-vacancy-service:
+    build: ./backend/domains/student_management/student-apply-vacancy-service
+    ports:
+      - "3020:3020"
+    depends_on:
+      - postgres
+
+  student-view-vacancies-service:
+    build: ./backend/domains/student_management/student-view-vacancies-service
+    ports:
+      - "5004:5004"
+    depends_on:
+      - postgres
+
+  vacancy-create-service:
+    build: ./backend/domains/vacancy/vacancy-create-service
+    ports:
+      - "5005:5005"
+    depends_on:
+      - postgres
+
   frontend:
     build: ./frontend
     ports:
