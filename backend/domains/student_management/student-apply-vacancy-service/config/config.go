@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/joho/godotenv"
+	//"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -17,10 +17,10 @@ type Config struct {
 }
 
 func LoadConfig() (*Config, error) {
-	err := godotenv.Load(".env")
-	if err != nil {
-		return nil, fmt.Errorf("error cargando .env: %w", err)
-	}
+	//err := godotenv.Load(".env")
+	//if err != nil {
+		//return nil, fmt.Errorf("error cargando .env: %w", err)
+	//}
 
 	return &Config{
 		DBHost:     os.Getenv("DB_HOST"),

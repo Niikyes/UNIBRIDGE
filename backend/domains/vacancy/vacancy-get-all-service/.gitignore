@@ -4,11 +4,8 @@ __pycache__/
 *.pyd
 *.db
 *.sqlite3
+*.log
 .env
 .vscode/
 .idea/
-*.log
-.git/
-.gitignore
-Dockerfile
-docker-compose*
+*.DS_Store

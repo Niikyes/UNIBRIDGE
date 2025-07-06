@@ -4,11 +4,7 @@ tmp/
 vendor/
 *.log
 *.sqlite3
-*.env
+.env
 .vscode/
 .idea/
-.git/
-.gitignore
-Dockerfile
-docker-compose*
-
+*.DS_Store

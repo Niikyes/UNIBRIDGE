@@ -1,0 +1,39 @@
+openapi: 3.0.1
+info:
+  title: Postulation Get by Vacancy Service API
+  description: API to get all applications by vacancy
+  version: "1.0.0"
+servers:
+  - url: http://localhost:5000/api
+paths:
+  /postulations/vacancy/{vacancyId}:
+    get:
+      summary: Get applications by vacancy
+      parameters:
+        - name: vacancyId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of applications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    postulationId:
+                      type: string
+                    studentId:
+                      type: string
+                    date:
+                      type: string
+                    status:
+                      type: string
+        '404':
+          description: Vacancy not found
+        '500':
+          description: Internal server error

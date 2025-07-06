@@ -1,0 +1,10 @@
+# Go build outputs
+bin/
+vendor/
+
+# General
+*.log
+.env
+.vscode/
+.idea/
+*.DS_Store

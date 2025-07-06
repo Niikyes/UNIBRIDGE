@@ -1,9 +1,10 @@
-*.log
+**/bin/
+**/obj/
 .vscode/
 .idea/
-.env
+*.user
+*.suo
 .git/
 .gitignore
 Dockerfile
 docker-compose*
-

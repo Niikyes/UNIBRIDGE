@@ -1,23 +1,15 @@
-# Use Golang official image
-FROM golang:1.20
-
-# Set working directory
+FROM golang:1.21-alpine
+ 
 WORKDIR /app
 
-# Copy go.mod and go.sum files
-COPY go.mod go.sum ./
+COPY go.mod go.sum ./ 
+RUN go mod download 
 
-# Download dependencies
-RUN go mod download
+COPY . . 
 
-# Copy the entire project
-COPY . .
+RUN go build -o main ./cmd/main.go 
 
-# Build the binary
-RUN go build -o main ./cmd/main.go
+EXPOSE 3020 
 
-# Expose port
-EXPOSE 3020
+CMD ["./main"] 
 
-# Start the service
-CMD ["./main"]

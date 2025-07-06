@@ -1,0 +1,35 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{1AE8ACA6-933B-BF2A-3671-3E2EAC007D16}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "domains", "domains", "{A3FC365D-9244-17AA-F8AB-240FE7F7C7AC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "postulations", "postulations", "{C269CCE2-B2AB-7883-4FD5-EF4CC7EB1375}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "postulation-get-by-vacancy-service", "backend\domains\postulations\postulation-get-by-vacancy-service\postulation-get-by-vacancy-service.csproj", "{C9FBDD64-B5EB-0652-B5DB-3C6C10AAC2F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9FBDD64-B5EB-0652-B5DB-3C6C10AAC2F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9FBDD64-B5EB-0652-B5DB-3C6C10AAC2F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9FBDD64-B5EB-0652-B5DB-3C6C10AAC2F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9FBDD64-B5EB-0652-B5DB-3C6C10AAC2F5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A3FC365D-9244-17AA-F8AB-240FE7F7C7AC} = {1AE8ACA6-933B-BF2A-3671-3E2EAC007D16}
+		{C269CCE2-B2AB-7883-4FD5-EF4CC7EB1375} = {A3FC365D-9244-17AA-F8AB-240FE7F7C7AC}
+		{C9FBDD64-B5EB-0652-B5DB-3C6C10AAC2F5} = {C269CCE2-B2AB-7883-4FD5-EF4CC7EB1375}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B2BE6D33-0A03-4365-AF2F-B3FDD8C6B263}
+	EndGlobalSection
+EndGlobal

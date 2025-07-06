@@ -1,20 +1,19 @@
-# Use official Python image
-FROM python:3.11
+FROM python:3.11.9-slim
 
-# Set working directory
-WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Copy requirements
-COPY requirements.txt ./
+WORKDIR /usr/src/app
 
-# Install dependencies
+COPY ["requirements.txt", "./"]
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy entire application
-COPY . .
+COPY . .  
 
-# Expose port
-EXPOSE 3021
+EXPOSE 3021 
+ 
+RUN adduser --disabled-password appuser && chown -R appuser /usr/src/app
+USER appuser
 
-# Start the service
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5006"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "3021"]
+

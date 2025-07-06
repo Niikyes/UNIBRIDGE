@@ -69,6 +69,20 @@ services:
     depends_on:
       - postgres
 
+  postulation-get-by-vacancy-service:
+    build: ./backend/domains/postulations/postulation-get-by-vacancy-service
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+
+  transform-id-service:
+    build: ./backend/domains/postulations/transform-id
+    ports:
+      - "5006:5006"
+    depends_on:
+      - postgres
+
   frontend:
     build: ./frontend
     ports:

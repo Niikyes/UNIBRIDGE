@@ -8,3 +8,4 @@ use VacancyController
 # Config
 set :port, ENV['PORT'] || 5005
 set :bind, '0.0.0.0'
+

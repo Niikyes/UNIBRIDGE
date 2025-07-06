@@ -1,0 +1,39 @@
+openapi: 3.0.1
+info:
+  title: Transform ID Service API
+  description: API to transform a student's UUID into readable data
+  version: "1.0.0"
+servers:
+  - url: http://localhost:5035/api
+paths:
+  /transform/{studentId}:
+    get:
+      summary: Transform UUID to readable data
+      parameters:
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Readable student data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nickname:
+                    type: string
+                  email:
+                    type: string
+                  university:
+                    type: string
+                  faculty:
+                    type: string
+                  career:
+                    type: string
+        '404':
+          description: Student not found
+        '500':
+          description: Internal server error

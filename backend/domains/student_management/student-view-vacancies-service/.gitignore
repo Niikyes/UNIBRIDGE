@@ -1,14 +1,12 @@
+# Python cache and virtual environments
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 *.db
 *.sqlite3
+*.log
 .env
 .vscode/
 .idea/
-*.log
-.git/
-.gitignore
-Dockerfile
-docker-compose*
+*.DS_Store

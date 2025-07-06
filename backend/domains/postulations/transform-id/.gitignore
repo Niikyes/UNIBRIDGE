@@ -8,7 +8,3 @@ __pycache__/
 .vscode/
 .idea/
 *.log
-.git/
-.gitignore
-Dockerfile
-docker-compose*
