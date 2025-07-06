@@ -25,7 +25,7 @@ export default function PasswordResetPage() {
     setError('');
     setMensaje('');
     try {
-      await axios.post('http://localhost:3007/api/reset-password', form);
+      await axios.post('http://54.225.176.170:3007/api/reset-password', form);
       setMensaje('Contraseña actualizada. Redirigiendo...');
       setTimeout(() => navigate('/login'), 3000);
     } catch (err) {

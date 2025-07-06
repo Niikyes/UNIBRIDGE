@@ -1,23 +1,11 @@
-# Use Node.js official LTS image
-FROM node:20
-
-# Set working directory
-WORKDIR /usr/src/app
-
-# Copy package files first
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy application code
-COPY . .
-
-# Expose port
-EXPOSE 3014
-
-# Set environment variable (optional)
+# auth/auth-verify-service-service/Dockerfile
+FROM node:lts-alpine
 ENV NODE_ENV=production
-
-# Start the app
+WORKDIR /usr/src/app
+COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
+RUN npm install --production --silent && mv node_modules ../
+COPY . .
+EXPOSE 3014
+RUN chown -R node /usr/src/app
+USER node
 CMD ["node", "server.js"]

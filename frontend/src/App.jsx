@@ -19,15 +19,13 @@ import VerFacultadesPage from './domains/admin/pages/VerFacultadesPage';
 import VerUniversidadesPage from './domains/admin/pages/VerUniversidadesPage';
 import VerEstudiantesPage from './domains/admin/pages/VerEstudiantesPage';
 import VerUsuariosPage from './domains/admin/pages/VerUsuariosPage';
-import HabilitarEmpresasPage from './domains/usuarios/pages/HabilitarEmpresasPage';
-import CrearCoordinadorPage from './domains/usuarios/pages/CrearCoordinadorPage';
+import HabilitarEmpresasPage from './domains/admin/pages/HabilitarEmpresasPage';
+import CrearCoordinadorPage from './domains/admin/pages/CrearCoordinadorPage';
 import CrearAdminInstitucionalPage from './domains/admin/pages/CrearAdminInstitucionalPage';
 import SeeVacancies from './domains/Estudiante/page/SeeVacancies';
 import LandingPage from './pages/LandingPage';
 import { AuthProvider } from './context/AuthContext';
 import CreateVacancyPage from './domains/usuarios/pages/CreateVacancyPage';
-import MisVacantesPage from "./domains/usuarios/pages/MisVacantesPage";
-import SeePostulatesPage from "./domains/usuarios/pages/SeePostulatesPage";
 
 
 import { ToastContainer } from "react-toastify";
@@ -55,7 +53,7 @@ function App() {
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
           <Route path="/admin_global/crear-admin-institucional" element={<CrearAdminInstitucionalPage />} />
           <Route path="/admin_institucional/crear-coordinador" element={<CrearCoordinadorPage />} />
-          <Route path="/coordinador/habilitar-empresas" element={<HabilitarEmpresasPage />} />
+          <Route path="/admin_institucional/habilitar-empresas" element={<HabilitarEmpresasPage />} />
           <Route path="/admin_global/usuarios" element={<VerUsuariosPage />} />
           <Route path="/admin_global/estudiantes" element={<VerEstudiantesPage />} />
           <Route path="/admin_global/universidades" element={<VerUniversidadesPage />} />
@@ -63,8 +61,7 @@ function App() {
           <Route path="/admin_global/carreras" element={<VerCarrerasPage />} />
           <Route path="/admin_global/empresas" element={<VerEmpresasPage />} />
           <Route path="/empresa/crear-vacante" element={<ProtectedRoute requiredRole="empresa"><CreateVacancyPage /></ProtectedRoute>} />
-          <Route path="/empresa/vacantes" element={<ProtectedRoute requiredRole="empresa"><MisVacantesPage /></ProtectedRoute>} />
-          <Route path="/empresa/vacantes/:vacancyId/postulados" element={<SeePostulatesPage />} />
+
         </Routes>
         <ToastContainer />
       </AuthProvider>

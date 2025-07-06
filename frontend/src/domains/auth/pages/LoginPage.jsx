@@ -30,7 +30,7 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
     try {
-      const response = await axios.post('http://localhost:3004/api/login', form);
+      const response = await axios.post('http://54.225.176.170:3004/api/login', form);
       const userData = response.data;
       login(userData);
       navigate(`/${userData.role}/${encodeURIComponent(userData.nickname)}`);

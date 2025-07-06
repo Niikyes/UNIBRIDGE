@@ -1,10 +1,9 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Navbar from "../../../components/Navbar";
-import RoleBasedSidebar from "../../../components/RoleBasedSidebar";
+import Layout from "../../../layouts/Layout";
 import { useAuth } from "../../../context/AuthContext";
-import { toast } from "react-toastify";
+import { toast } from "react-toastify"; // ✅ IMPORTANTE
 
 export default function SeeVacancies() {
   const { user, updateProfile } = useAuth();
@@ -12,7 +11,6 @@ export default function SeeVacancies() {
   const { nick } = useParams();
   const [vacantes, setVacantes] = useState([]);
   const [filtroCarrera, setFiltroCarrera] = useState("");
-  const errorShownRef = useRef(false); // para evitar mostrar error dos veces
 
   useEffect(() => {
     if (!user) {
@@ -27,14 +25,11 @@ export default function SeeVacancies() {
   useEffect(() => {
     const fetchVacantes = async () => {
       try {
-        const response = await axios.get("http://localhost:5004/api/estudiante/vacancies");
+        const response = await axios.get("http://54.225.176.170:5004/api/estudiante/vacancies");
         setVacantes(response.data);
       } catch (error) {
         console.error("Error al obtener vacantes:", error);
-        if (!errorShownRef.current) {
-          toast.error("Error al cargar las vacantes");
-          errorShownRef.current = true;
-        }
+        toast.error("Error al cargar las vacantes");
       }
     };
 
@@ -48,7 +43,7 @@ export default function SeeVacancies() {
     }
 
     try {
-      await axios.post("http://localhost:3020/api/apply", {
+      await axios.post("http://54.225.176.170:3020/api/apply", {
         estudiante_id: user.estudiante_id,
         vacante_id: vacanteId,
       });
@@ -77,59 +72,48 @@ export default function SeeVacancies() {
 
   return (
     <>
-      <Navbar />
-      <div className="flex">
-        <RoleBasedSidebar />
-        <div className="p-4 w-full">
-          <h1 className="text-2xl font-semibold mb-4">Vacantes Disponibles</h1>
-          <p className="text-sm text-gray-500">Total vacantes: {vacantesFiltradas.length}</p>
+      <Layout>
+        <div className="flex">
+          <div className="p-4 w-full">
+            <h1 className="text-2xl font-semibold mb-4">Vacantes Disponibles</h1>
+            <p className="text-sm text-gray-500">Total vacantes: {vacantesFiltradas.length}</p>
 
-          <label className="block mb-2">
-            Filtrar por carrera:
-            <input
-              type="text"
-              className="ml-2 p-1 border rounded"
-              value={filtroCarrera}
-              onChange={(e) => setFiltroCarrera(e.target.value)}
-            />
-          </label>
+            <label className="block mb-2">
+              Filtrar por carrera:
+              <input
+                type="text"
+                className="ml-2 p-1 border rounded"
+                value={filtroCarrera}
+                onChange={(e) => setFiltroCarrera(e.target.value)}
+              />
+            </label>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-            {vacantesFiltradas.map((vacante) => (
-              <div key={vacante.id} className="border p-4 rounded shadow">
-                <h2 className="text-xl font-bold">{vacante.titulo}</h2>
-                <p className="text-sm text-gray-700">{vacante.descripcion}</p>
-                <p className="mt-1 text-sm">
-                  <strong>Modalidad:</strong> {vacante.modalidad}
-                </p>
-                <p className="text-sm">
-                  <strong>Ubicación:</strong> {vacante.ubicacion}
-                </p>
-                <p className="text-sm">
-                  <strong>Estado:</strong> {vacante.estado}
-                </p>
-                <p className="mt-2 text-sm">
-                  <strong>Habilidades:</strong> {(vacante.habilidades || []).join(", ")}
-                </p>
-                <p className="text-sm">
-                  <strong>Carreras destino:</strong> {(vacante.carreras_destino || []).join(", ")}
-                </p>
-                <button
-                  className="mt-3 bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700"
-                  onClick={() => handlePostularse(vacante.id)}
-                >
-                  Postularse
-                </button>
-              </div>
-            ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              {vacantesFiltradas.map((vacante) => (
+                <div key={vacante.id} className="border p-4 rounded shadow">
+                  <h2 className="text-xl font-bold">{vacante.titulo}</h2>
+                  <p className="text-sm text-gray-700">{vacante.descripcion}</p>
+                  <p className="mt-2 text-sm">
+                    <strong>Habilidades:</strong> {(vacante.habilidades || []).join(", ")}
+                  </p>
+                  <p className="text-sm">
+                    <strong>Carreras destino:</strong> {(vacante.carreras_destino || []).join(", ")}
+                  </p>
+                  <button
+                    className="mt-3 bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700"
+                    onClick={() => handlePostularse(vacante.id)}
+                  >
+                    Postularse
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </Layout>
     </>
   );
 }
-
-
 
 
 

@@ -1,24 +1,22 @@
-
 const express = require('express');
 const router = express.Router();
 const { assignRole } = require('../controllers/user.controller');
-const authMiddleware = require('../middleware/authMiddleware');
 
 /**
  * @swagger
  * /users/{id}/assign-role:
- *   patch:
- *     summary: Asignar rol a un usuario
+ *   put:
+ *     summary: Asignar nuevo rol a un usuario
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: ID del usuario a modificar
+ *       - in: path
+ *         name: id
  *         schema:
  *           type: string
+ *         required: true
+ *         description: ID del usuario
  *     requestBody:
  *       required: true
  *       content:
@@ -26,18 +24,16 @@ const authMiddleware = require('../middleware/authMiddleware');
  *           schema:
  *             type: object
  *             properties:
- *               role:
+ *               newRole:
  *                 type: string
- *                 enum: [admin_institucional, coordinador]
  *     responses:
  *       200:
  *         description: Rol asignado correctamente
- *       400:
- *         description: Solicitud inválida
  *       403:
- *         description: Sin permisos
+ *         description: No autorizado
+ *       401:
+ *         description: Token requerido
  */
-
-router.patch('/:id/assign-role', authMiddleware, assignRole);
+router.put('/:id/assign-role', assignRole);
 
 module.exports = router;

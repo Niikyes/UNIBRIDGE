@@ -3,7 +3,7 @@ import axios from "axios";
 import Navbar from "../../../components/Navbar";
 import RoleBasedSidebar from "../../../components/RoleBasedSidebar";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom"; // 👈 Importar Link
+import { Link } from "react-router-dom";
 
 export default function MisVacantesPage() {
   const [vacantes, setVacantes] = useState([]);
@@ -20,7 +20,7 @@ export default function MisVacantesPage() {
           return;
         }
 
-        const res = await axios.get(`http://localhost:5100/api/vacancies/empresa/${empresaId}`);
+        const res = await axios.get(`http://54.225.176.170:5100/api/vacancies/empresa/${empresaId}`);
         setVacantes(res.data);
       } catch (error) {
         console.error("Error al obtener vacantes:", error);
@@ -65,15 +65,15 @@ export default function MisVacantesPage() {
                     <strong>Carreras destino:</strong> {(v.carreras_destino || []).join(", ")}
                   </p>
 
-                  {/* Botón Ver postulados */}
+
                   <Link
-  to={`/empresa/vacantes/${v.id}/postulados`}
-  state={{ tituloVacante: v.titulo }}
->
-  <button className="mt-3 bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">
-    Ver postulados
-  </button>
-</Link>
+                    to={`/empresa/vacantes/${v.id}/postulados`}
+                    state={{ tituloVacante: v.titulo }}
+                  >
+                    <button className="mt-3 bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">
+                      Ver postulados
+                    </button>
+                  </Link>
                 </div>
               ))}
             </div>

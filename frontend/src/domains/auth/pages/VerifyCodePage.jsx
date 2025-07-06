@@ -17,7 +17,7 @@ export default function VerifyCodePage() {
     e.preventDefault();
     setError('');
     try {
-      const res = await axios.post('http://localhost:3003/api/verify', form);
+      const res = await axios.post('http://54.225.176.170:3003/api/verify', form);
       setExito('Cuenta verificada correctamente. Redirigiendo...');
       setTimeout(() => navigate('/login'), 3000);
     } catch (err) {

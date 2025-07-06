@@ -14,13 +14,13 @@ export default function VerPostuladosPage() {
   useEffect(() => {
     const fetchPostulados = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/postulations/vacancy/${vacancyId}`);
+        const response = await axios.get(`http://54.225.176.170:5000/api/postulations/vacancy/${vacancyId}`);
         const postuladosRaw = response.data;
 
         const detailedPostulados = await Promise.all(
           postuladosRaw.map(async (post) => {
             try {
-              const detailRes = await axios.get(`http://localhost:5006/api/transform/${post.estudianteId}`);
+              const detailRes = await axios.get(`http://54.225.176.170:5006/api/transform/${post.estudianteId}`);
               return {
                 ...post,
                 nickname: detailRes.data.nickname,
@@ -39,7 +39,7 @@ export default function VerPostuladosPage() {
         setPostulados(detailedPostulados);
       } catch (error) {
         console.error("Error al cargar los postulados", error);
-        // ✅ Muestra el toast solo una vez
+        // Show the toast only once
         if (!toast.isActive("loadPostuladosError")) {
           toast.error("Error al cargar los postulados", { toastId: "loadPostuladosError" });
         }

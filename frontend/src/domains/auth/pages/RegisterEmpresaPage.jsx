@@ -26,7 +26,7 @@ export default function RegisterEmpresaPage() {
     setError('');
     setExito('');
     try {
-      const response = await axios.post('http://localhost:3001/api/register/empresa', form);
+      const response = await axios.post('http://54.225.176.170:3001/api/register/empresa', form);
       setExito('Registro exitoso. Tu cuenta será verificada por un administrador.');
       setTimeout(() => navigate('/verify'), 3000);
     } catch (err) {

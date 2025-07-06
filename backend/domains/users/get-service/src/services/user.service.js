@@ -11,6 +11,7 @@ module.exports = async function getUserService({ id, email }) {
 
   const users = await User.findAll({
     where: whereClause,
+    attributes: { exclude: ['password'] },
     include: [
       { model: Estudiante },
       { model: Empresa },

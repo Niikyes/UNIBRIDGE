@@ -22,14 +22,14 @@ export default function RegisterPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:3001/api/universidades')
+    axios.get('http://54.225.176.170:3001/api/universidades')
       .then(res => setUniversidades(res.data))
       .catch(() => setUniversidades([]));
   }, []);
 
   useEffect(() => {
     if (form.universidad_id) {
-      axios.get(`http://localhost:3001/api/facultades?universidad_id=${form.universidad_id}`)
+      axios.get(`http://54.225.176.170:3001/api/facultades?universidad_id=${form.universidad_id}`)
         .then(res => setFacultades(res.data))
         .catch(() => setFacultades([]));
     }
@@ -37,7 +37,7 @@ export default function RegisterPage() {
 
   useEffect(() => {
     if (form.facultad_id) {
-      axios.get(`http://localhost:3001/api/carreras?facultad_id=${form.facultad_id}`)
+      axios.get(`http://54.225.176.170:3001/api/carreras?facultad_id=${form.facultad_id}`)
         .then(res => setCarreras(res.data))
         .catch(() => setCarreras([]));
     }
@@ -51,7 +51,7 @@ export default function RegisterPage() {
     e.preventDefault();
     setError('');
     try {
-      await axios.post('http://localhost:3001/api/register/estudiante', form);
+      await axios.post('http://54.225.176.170:3001/api/register/estudiante', form);
       navigate('/verify');
     } catch (err) {
       setError(err.response?.data?.message || 'Error al registrar usuario');

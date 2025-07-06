@@ -1,21 +1,38 @@
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+const { JWT_SECRET } = process.env;
 
-const getUserService = require('../services/user.service');
-
-const getUsers = async (req, res) => {
+const getUsersByRole = async (req, res) => {
   try {
-    const { id, email } = req.query;
+    const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
 
-    const allowed = req.user?.role === 'admin_global' || req.user?.role === 'admin_institucional' || req.user?.role === 'coordinador';
-
-    if ((id || email) && !allowed && req.user?.id !== id) {
-      return res.status(403).json({ message: 'No autorizado para consultar este usuario' });
+    if (!token) {
+      return res.status(401).json({ success: false, message: 'Token is required.' });
     }
 
-    const users = await getUserService({ id, email });
-    res.status(200).json(users);
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const requesterRole = decoded.role;
+
+    let allowedRoles = [];
+
+    if (requesterRole === 'admin_global') {
+      allowedRoles = ['admin_institucional', 'coordinador', 'empresa', 'estudiante'];
+    } else if (requesterRole === 'admin_institucional') {
+      allowedRoles = ['coordinador', 'empresa', 'estudiante'];
+    } else {
+      return res.status(403).json({ success: false, message: 'Not authorized to access users.' });
+    }
+
+    const users = await User.findAll({
+      where: { role: allowedRoles },
+      attributes: { exclude: ['password'] },
+    });
+
+    return res.status(200).json({ success: true, data: users });
   } catch (error) {
-    res.status(error.status || 500).json({ message: error.message });
+    console.error(error);
+    return res.status(400).json({ success: false, message: error.message });
   }
 };
 
-module.exports = { getUsers };
+module.exports = { getUsersByRole };

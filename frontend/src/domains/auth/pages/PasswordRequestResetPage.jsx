@@ -12,7 +12,7 @@ export default function PasswordRequestResetPage() {
     e.preventDefault();
     setError('');
     try {
-      await axios.post('http://localhost:3006/api/request-reset', { email });
+      await axios.post('http://54.225.176.170:3006/api/request-reset', { email });
       navigate('/reset', { state: { email } }); // redirige con el email
     } catch (err) {
       setError(err.response?.data?.message || 'Error al solicitar código');

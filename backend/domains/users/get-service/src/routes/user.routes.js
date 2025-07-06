@@ -1,8 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { getUsers } = require('../controllers/user.controller');
-const authMiddleware = require('../middleware/authMiddleware');
+const { getUsers, getUsersByRole } = require('../controllers/user.controller');
 
 /**
  * @swagger
@@ -34,6 +33,6 @@ const authMiddleware = require('../middleware/authMiddleware');
  *         description: Token requerido
  */
 
-router.get('/', authMiddleware, getUsers);
+router.get('/', getUsersByRole);
 
 module.exports = router;

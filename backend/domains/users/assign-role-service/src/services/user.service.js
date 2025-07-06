@@ -1,25 +1,40 @@
-
 const User = require('../models/User');
-const Rol = require('../models/Rol');
-const validate = require('../utils/validateRole');
+const Role = require('../models/Role');
 
-module.exports = async function assignRoleService(id, data, actorRole) {
-  const { error, value } = validate.validate(data);
-  if (error) throw { status: 400, message: error.details[0].message };
+const assignRoleService = async (id, newRole, requesterRole, allowedRoles) => {
+  const user = await User.findByPk(id, {
+    include: [Role]
+  });
 
-  const user = await User.findByPk(id);
-  if (!user) throw { status: 404, message: 'Usuario no encontrado' };
-
-  const roleRecord = await Rol.findOne({ where: { name: value.role } });
-  if (!roleRecord) throw { status: 400, message: 'Rol destino no válido' };
-
-  if (
-    (value.role === 'admin_institucional' && actorRole !== 'admin_global') ||
-    (value.role === 'coordinador' && actorRole !== 'admin_institucional')
-  ) {
-    throw { status: 403, message: 'No tienes permisos para asignar este rol' };
+  if (!user) {
+    throw new Error('User not found.');
   }
 
-  await user.update({ role_id: roleRecord.id });
-  return { message: 'Rol asignado correctamente' };
+  console.log("Rol actual del usuario:", user.Role?.name);
+  console.log("Roles permitidos:", allowedRoles);
+
+  if (!allowedRoles.includes(user.Role?.name)) {
+    throw new Error('Not authorized to assign role to this user.');
+  }
+
+  // Validaciones extra para asignar el nuevo rol
+  if (
+    (newRole === 'admin_institucional' && requesterRole !== 'admin_global') ||
+    (newRole === 'coordinador' && requesterRole !== 'admin_institucional' && requesterRole !== 'admin_global') ||
+    (newRole === 'admin_global')
+  ) {
+    throw new Error('Not authorized to assign this new role.');
+  }
+
+  // Buscar el nuevo rol en la tabla roles
+  const targetRole = await Role.findOne({ where: { name: newRole } });
+  if (!targetRole) {
+    throw new Error('Role not found.');
+  }
+
+  await user.update({ role_id: targetRole.id });
+
+  return { id: user.id, newRole };
 };
+
+module.exports = { assignRoleService };

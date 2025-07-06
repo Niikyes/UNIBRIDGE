@@ -1,32 +1,30 @@
-
 const express = require('express');
 const router = express.Router();
-const { updateUserStatus } = require('../controllers/user.controller');
-const authMiddleware = require('../middleware/authMiddleware');
+const { deleteUser } = require('../controllers/user.controller');
 
 /**
  * @swagger
  * /users/{id}:
- *   patch:
- *     summary: Cambiar estado del usuario
+ *   delete:
+ *     summary: Eliminar usuario por ID
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - name: id
- *         in: path
- *         required: true
+ *       - in: path
+ *         name: id
  *         schema:
  *           type: string
+ *         required: true
+ *         description: ID del usuario a eliminar
  *     responses:
  *       200:
- *         description: Acción ejecutada correctamente
+ *         description: Usuario eliminado correctamente
  *       403:
  *         description: No autorizado
- *       404:
- *         description: Usuario no encontrado
+ *       401:
+ *         description: Token requerido
  */
-
-router.patch('/:id', authMiddleware, updateUserStatus);
+router.delete('/:id', deleteUser);
 
 module.exports = router;

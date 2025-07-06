@@ -19,10 +19,10 @@ const User = sequelize.define('User', {
 // Relaciones
 const Estudiante = require('./Estudiante');
 const Empresa = require('./Empresa');
-const Rol = require('./Rol');
+const Role = require('./Role');
 
 User.hasOne(Estudiante, { foreignKey: 'user_id' });
 User.hasOne(Empresa, { foreignKey: 'user_id' });
-User.belongsTo(Rol, { foreignKey: 'role_id' });
+User.belongsTo(Role, { foreignKey: 'role_id' });
 
 module.exports = User;

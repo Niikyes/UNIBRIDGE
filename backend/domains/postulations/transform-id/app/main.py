@@ -7,17 +7,17 @@ import uvicorn
 
 load_dotenv()
 
-# Inicializamos FastAPI
+# initialize FastAPI
 app = FastAPI(
     title="Transform ID Service",
     description="Microservice to transform user ID into user info",
     version="1.0.0"
 )
 
-# Configuración de CORS
+# CORS configuration
 origins = [
-    "http://localhost:5173",  # tu frontend local
-    # Si en el futuro tienes dominio en AWS o producción, lo agregas aquí
+    "http://54.225.176.170:5173",  # local frontend
+    # If you have a domain in AWS or production, add it here
     # "https://mi-app.com",
 ]
 
@@ -29,11 +29,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Incluimos el router
+# include the router
 app.include_router(router)
 
 if __name__ == "__main__":
-    # Obtenemos el puerto del .env o usamos 5000 por defecto
+    # get the port from the .env or use 5000 by default
     port = int(os.getenv("PORT", 5000))
-    # Usamos host 0.0.0.0 para permitir conexiones externas
+    # use host 0.0.0.0 to allow external connections
     uvicorn.run("app.main:app", host="0.0.0.0", port=port, reload=True)

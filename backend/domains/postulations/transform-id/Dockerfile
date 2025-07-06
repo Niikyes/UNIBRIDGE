@@ -1,27 +1,13 @@
-FROM python:3.11.9-slim
-
-# Environment configuration
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-ENV PORT=5006
-
-WORKDIR /usr/src/app
-
-# Install dependencies first (cache-friendly)
-COPY ["requirements.txt", "./"]
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the rest of the code
+# Stage 1: Builder
+FROM python:3.11-slim AS builder
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --user --no-cache-dir -r requirements.txt
+FROM python:3.11-slim
+WORKDIR /app
 COPY . .
-
-# Expose the container's internal port
+COPY --from=builder /root/.local /root/.local
+ENV PATH=/root/.local/bin:$PATH
 EXPOSE 5006
-
-# Create non-root user for security
-RUN adduser --disabled-password appuser && chown -R appuser /usr/src/app
-USER appuser
-
-# Final command
+ENV PORT=5006
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "5006"]
-
-

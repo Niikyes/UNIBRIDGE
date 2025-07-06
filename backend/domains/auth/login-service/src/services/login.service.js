@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Role = require('../models/Role');
+const Empresa = require('../models/Empresa');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const loginSchema = require('../utils/validateLogin');
@@ -17,6 +18,14 @@ module.exports = async function loginService(data) {
 
   if (!user) throw { status: 404, message: 'Usuario no encontrado' };
   if (!user.is_verified) throw { status: 403, message: 'Cuenta no verificada' };
+
+  // Verify approved company
+  if (user.Role.name === "empresa") {
+    const empresa = await Empresa.findOne({ where: { user_id: user.id } });
+    if (!empresa || !empresa.esta_aprobada) {
+      throw { status: 403, message: "La empresa aún no ha sido aprobada por el administrador institucional." };
+    }
+  }
 
   const valid = await bcrypt.compare(password, user.password_hash);
   if (!valid) throw { status: 401, message: 'Contraseña incorrecta' };

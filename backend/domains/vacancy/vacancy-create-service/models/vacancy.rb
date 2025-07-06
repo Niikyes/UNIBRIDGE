@@ -7,8 +7,8 @@ class Vacancy
   def insert(vacante)
     conn = db_connection
 
-    # Validar empresa en microservicio get-service
-    uri = URI("http://localhost:3011/api/empresas/#{vacante['empresa_id']}")
+    # Validate company in get-service microservice
+    uri = URI("http://54.225.176.170:3011/api/empresas/#{vacante['empresa_id']}")
     response = Net::HTTP.get_response(uri)
 
     if response.code != '200'

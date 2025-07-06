@@ -4,7 +4,7 @@ def get_user_info_by_id(estudiante_id: str):
     conn = get_connection()
     cur = conn.cursor()
 
-    # Obtener user_id y los IDs de universidad, carrera, facultad
+    # Get user_id and university, degree, and faculty IDs
     cur.execute("""
         SELECT user_id, universidad_id, carrera_id, facultad_id
         FROM estudiantes
@@ -22,7 +22,7 @@ def get_user_info_by_id(estudiante_id: str):
     carrera_id = student_row[2]
     facultad_id = student_row[3]
 
-    # Obtener datos de users
+    # Get data from users
     cur.execute("""
         SELECT nickname, email
         FROM users
@@ -38,22 +38,22 @@ def get_user_info_by_id(estudiante_id: str):
     nickname = user_row[0]
     email = user_row[1]
 
-    # Obtener nombre universidad
+    # Get university name
     cur.execute("SELECT nombre FROM universidades WHERE id = %s", (universidad_id,))
     uni_row = cur.fetchone()
     universidad_nombre = uni_row[0] if uni_row else "No registrado"
 
-    # Obtener nombre carrera
+    # Get career name
     cur.execute("SELECT nombre FROM carreras WHERE id = %s", (carrera_id,))
     carrera_row = cur.fetchone()
     carrera_nombre = carrera_row[0] if carrera_row else "No registrado"
 
-    # Obtener nombre facultad
+    # Get faculty name
     cur.execute("SELECT nombre FROM facultades WHERE id = %s", (facultad_id,))
     facultad_row = cur.fetchone()
     facultad_nombre = facultad_row[0] if facultad_row else "No registrado"
 
-    # Armar respuesta
+    # Assemble response
     user_info = {
         "nickname": nickname,
         "email": email,

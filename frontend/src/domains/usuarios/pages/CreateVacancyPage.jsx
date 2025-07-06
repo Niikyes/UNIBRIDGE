@@ -1,7 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import Navbar from "../../../components/Navbar";
-import RoleBasedSidebar from "../../../components/RoleBasedSidebar";
+import Layout from "../../../layouts/Layout";
 import { toast } from "react-toastify";
 
 export default function CreateVacancyPage() {
@@ -32,14 +31,15 @@ export default function CreateVacancyPage() {
       ubicacion,
       fecha_inicio: fechaInicio,
       fecha_fin: fechaFin,
-      carreras_destino: carreras.split(",").map((c) => c.trim()),
-      habilidades: habilidades.split(",").map((h) => h.trim()),
-      empresa_id: empresaId,
+      carreras_destino: carreras.split(',').map(c => c.trim()),
+      habilidades: habilidades.split(',').map(h => h.trim()),
+      empresa_id: empresaId
     };
 
     try {
-      await axios.post("http://localhost:5005/api/vacancies", payload);
-      toast.success("¡Vacante creada exitosamente!");
+      await axios.post("http://54.225.176.170:5005/api/vacancies", payload);
+      toast.success("¡Vacante creada exitosamente! Tu vacante ahora está publicada.");
+      // Limpiar campos
       setTitulo("");
       setDescripcion("");
       setModalidad("");
@@ -56,88 +56,77 @@ export default function CreateVacancyPage() {
 
   return (
     <>
-      <Navbar />
-      <div className="flex">
-        <RoleBasedSidebar />
-        <div className="flex-1 p-6 flex justify-center">
-          <div className="w-full max-w-md bg-white p-6 border rounded-xl shadow-lg">
-            <h1 className="text-xl font-bold mb-4 text-center">Crear Vacante</h1>
-            <form onSubmit={handleSubmit} className="space-y-3">
+      <Layout>
+        <div className="flex">
+          <div className="flex-1 p-6">
+            <h1 className="text-xl font-bold mb-4">Crear Vacante</h1>
+            <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 type="text"
                 placeholder="Título"
                 value={titulo}
                 onChange={(e) => setTitulo(e.target.value)}
-                className="w-full p-2 text-base border rounded"
+                className="w-full p-2 border rounded"
               />
               <textarea
                 placeholder="Descripción"
                 value={descripcion}
                 onChange={(e) => setDescripcion(e.target.value)}
-                className="w-full p-2 text-base border rounded"
+                className="w-full p-2 border rounded"
               />
               <input
                 type="text"
                 placeholder="Modalidad"
                 value={modalidad}
                 onChange={(e) => setModalidad(e.target.value)}
-                className="w-full p-2 text-base border rounded"
+                className="w-full p-2 border rounded"
               />
               <input
                 type="text"
                 placeholder="Ubicación"
                 value={ubicacion}
                 onChange={(e) => setUbicacion(e.target.value)}
-                className="w-full p-2 text-base border rounded"
+                className="w-full p-2 border rounded"
               />
-              <div>
-                <label className="block text-gray-700 text-sm mb-1">Fecha de inicio</label>
-                <input
-                  type="date"
-                  value={fechaInicio}
-                  onChange={(e) => setFechaInicio(e.target.value)}
-                  className="w-full p-2 text-base border rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 text-sm mb-1">Fecha de finalización</label>
-                <input
-                  type="date"
-                  value={fechaFin}
-                  onChange={(e) => setFechaFin(e.target.value)}
-                  className="w-full p-2 text-base border rounded"
-                />
-              </div>
+              <input
+                type="date"
+                value={fechaInicio}
+                onChange={(e) => setFechaInicio(e.target.value)}
+                className="w-full p-2 border rounded"
+              />
+              <input
+                type="date"
+                value={fechaFin}
+                onChange={(e) => setFechaFin(e.target.value)}
+                className="w-full p-2 border rounded"
+              />
               <input
                 type="text"
                 placeholder="Carreras (separadas por coma)"
                 value={carreras}
                 onChange={(e) => setCarreras(e.target.value)}
-                className="w-full p-2 text-base border rounded"
+                className="w-full p-2 border rounded"
               />
               <input
                 type="text"
                 placeholder="Habilidades (separadas por coma)"
                 value={habilidades}
                 onChange={(e) => setHabilidades(e.target.value)}
-                className="w-full p-2 text-base border rounded"
+                className="w-full p-2 border rounded"
               />
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-base"
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
               >
                 Crear Vacante
               </button>
             </form>
           </div>
         </div>
-      </div>
+      </Layout>
     </>
   );
 }
-
-
-
 
 
 

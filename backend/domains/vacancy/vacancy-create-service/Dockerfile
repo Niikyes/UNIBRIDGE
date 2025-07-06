@@ -1,28 +1,34 @@
-FROM ruby:3.2.2-slim
+# Stage 1: Builder
+FROM ruby:3.1-slim AS builder
 
-WORKDIR /usr/src/app
+# Instalar dependencias necesarias para PostgreSQL (libpq-dev y gcc)
+RUN apt-get update && apt-get install -y libpq-dev build-essential
 
-# Install system dependencies for building gems
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev --no-install-recommends && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
 
-# Copy Gem files
+# Copiar Gemfile y Gemfile.lock
 COPY Gemfile Gemfile.lock ./
 
-# Install gems
-RUN bundle install && rm -rf /usr/local/bundle/cache/*.gem
+# Instalar dependencias de Ruby
+RUN bundle install
 
-# Copy rest of app
+# Stage 2: Final image
+FROM ruby:3.1-slim
+
+# Instalar libpq-dev en la imagen final (para PostgreSQL)
+RUN apt-get update && apt-get install -y libpq-dev
+
+WORKDIR /app
+
+# Copiar todo el código fuente
 COPY . .
 
+# Copiar las gemas instaladas desde el builder
+COPY --from=builder /usr/local/bundle /usr/local/bundle
+
+# Exponer el puerto que la app va a usar
 EXPOSE 5005
+ENV PORT=5005
 
-CMD ["bundle", "exec", "puma", "-p", "5005", "config.ru"]
-
-
-
-
-
-
-
-
-
+# Comando para iniciar el servidor
+CMD ["ruby", "app.rb"]

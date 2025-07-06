@@ -1,21 +1,21 @@
-
 const User = require('../models/User');
+const Role = require('../models/Rol');
 
-module.exports = async function handleUserStatus(id, actorRole) {
-  const user = await User.findByPk(id);
-  if (!user) throw { status: 404, message: 'Usuario no encontrado' };
+const deleteUserService = async (id, allowedRoles) => {
+  const user = await User.findByPk(id, {
+    include: [Role]
+  });
 
-  const allowedRoles = ['admin_global', 'admin_institucional', 'coordinador'];
-
-  if (actorRole !== 'admin_global' && 'delete-service' === 'delete-service') {
-    throw { status: 403, message: 'Solo admin_global puede eliminar usuarios permanentemente' };
+  if (!user) {
+    throw new Error('User not found.');
   }
 
-  if (!allowedRoles.includes(actorRole)) {
-    throw { status: 403, message: 'No tienes permisos suficientes' };
+  if (!allowedRoles.includes(user.Role?.name)) {
+    throw new Error('Not authorized to delete this user.');
   }
 
   await user.destroy();
-
-  return { message: 'Usuario eliminado permanentemente' };
+  return { id: user.id, role: user.Role?.name };
 };
+
+module.exports = { deleteUserService };
