@@ -1,35 +1,102 @@
-# 🗂️ Dominio: Postulation
+# 📨 Postulations Domain - UNIBRIDGE
 
-El dominio **Postulation** gestiona todas las acciones relacionadas con las postulaciones de estudiantes a vacantes publicadas por las empresas en el sistema UNIBRIDGE.
-
----
-
-## 🎯 Objetivo
-
-Facilitar la administración completa del ciclo de vida de una postulación, incluyendo:
-
-- Ver postulaciones por vacante
-- Aceptar o rechazar una postulación
-- Consultar el estado de una postulación (para estudiante y empresa)
+Este dominio agrupa los microservicios relacionados con el manejo de postulaciones de estudiantes a vacantes dentro del ecosistema **UNIBRIDGE**.
 
 ---
 
-## 🧩 Microservicios
+## ⚡ Microservicios incluidos
 
-### 1️⃣ `postulation-get-by-vacancy-service`
+### ✅ `postulation-get-by-vacancy-service`
 
-Permite consultar todos los estudiantes que se han postulado a una vacante específica.
+**Descripción:**  
+Servicio para obtener todas las postulaciones realizadas a una vacante específica.
+
+- **Tecnología:** C# (.NET)
+- **Arquitectura:** N capas
+- **Estilo:** REST
+- **Patrón:** Repository
+
+**Endpoint principal:**
+
+```
+GET /api/postulations/vacancy/{vacancyId}
+```
+
+**Funcionalidad:**  
+Devuelve una lista de postulaciones realizadas a la vacante indicada. Cada postulación contiene:
+
+- ID de la postulación
+- ID del estudiante
+- ID de la vacante
+- Fecha de postulación
+- Estado
 
 ---
 
-## 💻 Tecnologías utilizadas
+### ✅ `transform-id-service`
 
-- .NET Core 7 (C#)
-- PostgreSQL
-- Entity Framework Core (opcional)
-- Arquitectura: Clean + Repository
-- Estilo: RESTful
+**Descripción:**  
+Servicio para transformar el UUID del estudiante en información legible (nombre, email, carrera, facultad, etc.).
 
+- **Tecnología:** Python (FastAPI)
+- **Arquitectura:** N capas
+- **Estilo:** REST
+- **Patrón:** KISS
+
+**Endpoint principal:**
+
+```
+GET /api/transform/{estudianteId}
+```
+
+**Funcionalidad:**  
+Devuelve información detallada del estudiante a partir de su ID, para ser mostrado en la interfaz de la empresa.
+
+---
+
+## 💻 Flujo de integración
+
+1️⃣ La empresa consulta los postulantes a una vacante mediante el microservicio `postulation-get-by-vacancy-service`.  
+2️⃣ Por cada estudiante encontrado, el frontend consulta el `transform-id-service` para obtener su información completa.  
+3️⃣ Finalmente, se visualizan los datos completos del postulante (nombre, email, universidad, carrera, facultad) en la interfaz de la empresa.
+
+---
+
+## 🚀 Ejecución rápida
+
+### `postulation-get-by-vacancy-service`
+
+```bash
+dotnet restore
+dotnet run
+```
+
+### `transform-id-service`
+
+```bash
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 5006
+```
+
+---
+
+## 📄 Estado actual
+
+- [x] Listar postulaciones por vacante
+- [x] Transformar UUID a información legible del estudiante
+- [x] Integrado y funcional con frontend
+
+---
+
+## 🤝 Contribuciones
+
+¡Las contribuciones son bienvenidas! Para reportar bugs o sugerencias, abre un issue o un pull request.
+
+---
+
+## ✉️ Contacto
+
+UNIBRIDGE 🚀
 
 
 
