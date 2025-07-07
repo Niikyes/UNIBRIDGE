@@ -34,4 +34,4 @@ student_management/
 
 ## 🚀 Expected use
 
-This domain focuses on student operational flows, facilitating the management of their applications to vacancies and access to their personal information in UNIBRIDGE.
+This domain focuses on student operational flows, facilitating the managements of their applications to vacancies and access to their personal information in UNIBRIDGE.
