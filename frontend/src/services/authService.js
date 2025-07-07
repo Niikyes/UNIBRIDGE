@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 
-const API_VALIDATE = 'http://localhost:3005/api/validate'; // Cambiar si tu micro usa otro puerto
+const API_VALIDATE = 'http://54.225.176.170:3005/api/validate'; 
 
 export async function validateToken(token) {
   try {
