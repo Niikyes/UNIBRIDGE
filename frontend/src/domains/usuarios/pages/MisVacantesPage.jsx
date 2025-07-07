@@ -20,7 +20,7 @@ export default function MisVacantesPage() {
           return;
         }
 
-        const res = await axios.get(`http://54.225.176.170:5100/api/vacancies/empresa/${empresaId}`);
+        const res = await axios.get(`http://34.224.193.251:5100/api/vacancies/empresa/${empresaId}`);
         setVacantes(res.data);
       } catch (error) {
         console.error("Error al obtener vacantes:", error);

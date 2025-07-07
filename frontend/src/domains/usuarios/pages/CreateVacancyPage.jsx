@@ -37,7 +37,7 @@ export default function CreateVacancyPage() {
     };
 
     try {
-      await axios.post("http://54.225.176.170:5005/api/vacancies", payload);
+      await axios.post("http://34.224.193.251:5005/api/vacancies", payload);
       toast.success("¡Vacante creada exitosamente! Tu vacante ahora está publicada.");
       // Limpiar campos
       setTitulo("");
