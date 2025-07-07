@@ -17,22 +17,25 @@ import {
 export default function RoleBasedSidebar() {
   const [user, setUser] = useState(null);
   const [showLogout, setShowLogout] = useState(false);
-
-  // Estados de secciones plegables
-  const [openSections, setOpenSections] = useState({
-    dashboard: true,
-    admin: false,
-    soporte: false
+  const [openSections, setOpenSections] = useState(() => {
+    // Leer del localStorage la configuración anterior
+    const saved = localStorage.getItem("sidebarSections");
+    return saved ? JSON.parse(saved) : { dashboard: true, admin: false, soporte: false };
   });
 
   const toggleSection = (key) => {
-    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+    setOpenSections((prev) => {
+      const updated = { ...prev, [key]: !prev[key] };
+      // Guardar en localStorage
+      localStorage.setItem("sidebarSections", JSON.stringify(updated));
+      return updated;
+    });
   };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:3005/api/validate", {
+      .get("http://54.225.176.170:3005/api/validate", {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(res => setUser(res.data))
@@ -44,14 +47,15 @@ export default function RoleBasedSidebar() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("sidebarSections"); // Opcional: limpiar si quieres resetear al salir
     window.location.href = "/login";
   };
 
   return (
     <>
-      <aside className="w-64 bg-gray-900 text-white h-screen p-6 flex flex-col justify-between shadow-md">
+      <aside className="fixed top-16 left-0 h-[calc(100vh-4rem)] w-60 bg-gray-900 text-white p-6 flex flex-col justify-between shadow-md overflow-y-auto">
         <div className="space-y-6">
-          {/* Sección Dashboard */}
+          {/* Dashboard section */}
           <SectionHeader
             title="Dashboard"
             isOpen={openSections.dashboard}
@@ -75,7 +79,7 @@ export default function RoleBasedSidebar() {
             </div>
           )}
 
-          {/* Sección Admin Global */}
+          {/* Global admin section */}
           {user.role === "admin_global" && (
             <>
               <SectionHeader
@@ -96,12 +100,23 @@ export default function RoleBasedSidebar() {
             </>
           )}
 
-          {/* Admin Institucional */}
+          {/* Institutional admin */}
           {user.role === "admin_institucional" && (
-            <SidebarLink icon={<FiFolder />} label="Validar Empresas" to="/admin-institucional/validar-empresas" />
+            <>
+              <SectionHeader
+                title="Validaciones"
+                isOpen={openSections.admin}
+                toggle={() => toggleSection("admin")}
+              />
+              {openSections.admin && (
+                <div className="pl-4 space-y-2 text-sm text-gray-300">
+                  <SidebarLink icon={<FiFolder />} label="Validar Empresas" to="/admin_institucional/habilitar-empresas" />
+                </div>
+              )}
+            </>
           )}
 
-          {/* Soporte */}
+          {/* Support section */}
           <SectionHeader
             title="Soporte"
             isOpen={openSections.soporte}
@@ -114,7 +129,7 @@ export default function RoleBasedSidebar() {
           )}
         </div>
 
-        {/* Logout */}
+        {/* Logout button */}
         <button
           onClick={() => setShowLogout(true)}
           className="flex items-center gap-2 text-red-400 hover:text-red-300 text-sm mt-4"
@@ -122,16 +137,16 @@ export default function RoleBasedSidebar() {
           <FiLogOut className="w-4 h-4" />
           Cerrar sesión
         </button>
-      </aside>
+      </aside >
 
       {showLogout && (
         <LogoutModal onConfirm={handleLogout} onCancel={() => setShowLogout(false)} />
-      )}
+      )
+      }
     </>
   );
 }
 
-// Componente de enlace
 function SidebarLink({ icon, label, to }) {
   return (
     <Link
@@ -144,7 +159,6 @@ function SidebarLink({ icon, label, to }) {
   );
 }
 
-// Componente de encabezado de sección
 function SectionHeader({ title, isOpen, toggle }) {
   return (
     <button
@@ -156,4 +170,3 @@ function SectionHeader({ title, isOpen, toggle }) {
     </button>
   );
 }
-// 
