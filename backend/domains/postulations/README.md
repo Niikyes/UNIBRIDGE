@@ -90,7 +90,7 @@ uvicorn app.main:app --reload --port 5006
 
 ## 🤝 Contributions
 
-Contributions are welcome! To report bugs or suggest improvements, please open an issue or a pull request.
+Contributions are welcome ! To report bugs or suggest improvements, please open an issue or a pull request.
 
 ---
 
