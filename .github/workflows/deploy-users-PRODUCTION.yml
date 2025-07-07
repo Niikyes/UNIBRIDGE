@@ -1,0 +1,78 @@
+name: Deploy Users Domain to EC2
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push user services
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/enable-company-service ./backend/domains/users/enable-company-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/enable-company-service
+
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/create-service ./backend/domains/users/create-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/create-service
+
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/get-service ./backend/domains/users/get-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/get-service
+
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/update-service ./backend/domains/users/update-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/update-service
+
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/delete-service ./backend/domains/users/delete-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/delete-service
+
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/assign-role-service ./backend/domains/users/assign-role-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/assign-role-service
+
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/enable-disable-service ./backend/domains/users/enable-disable-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/enable-disable-service
+
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/list-user-service ./backend/domains/users/list-user-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/list-user-service
+
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/list-entity-service ./backend/domains/users/list-entity-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/list-entity-service
+
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/list-university-service ./backend/domains/users/list-university-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/list-university-service
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy user services to EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_USERS_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_USERS_SSH_KEY }}
+          script: |
+            sudo apt update
+            sudo apt install -y docker.io docker-compose
+            sudo systemctl enable docker
+            sudo systemctl start docker
+
+            echo "${{ secrets.DOCKER_PASSWORD }}" | sudo docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+            cd /home/ubuntu/users
+
+            sudo docker-compose down
+            sudo docker system prune -af
+            sudo docker-compose pull
+            sudo docker-compose up -d

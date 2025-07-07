@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import Navbar from "../../../components/Navbar";
-import RoleBasedSidebar from "../../../components/RoleBasedSidebar";
+import Layout from "../../../layouts/Layout";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+
 
 export default function MisVacantesPage() {
   const [vacantes, setVacantes] = useState([]);
@@ -36,9 +36,9 @@ export default function MisVacantesPage() {
 
   return (
     <>
-      <Navbar />
+      <Layout>  
       <div className="flex">
-        <RoleBasedSidebar />
+        
         <div className="p-6 w-full">
           <h1 className="text-2xl font-bold mb-4">Mis Vacantes Publicadas</h1>
           {vacantes.length === 0 ? (
@@ -80,6 +80,7 @@ export default function MisVacantesPage() {
           )}
         </div>
       </div>
+      </Layout>
     </>
   );
 }

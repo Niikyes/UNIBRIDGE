@@ -1,7 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import Navbar from "../../../components/Navbar";
-import RoleBasedSidebar from "../../../components/RoleBasedSidebar";
+import Layout from "../../../layouts/Layout";
 import { toast } from "react-toastify";
 
 export default function CreateVacancyPage() {
@@ -56,9 +55,9 @@ export default function CreateVacancyPage() {
 
   return (
     <>
-      <Navbar />
+      <Layout>
       <div className="flex">
-        <RoleBasedSidebar />
+        
         <div className="flex-1 p-6 flex justify-center">
           <div className="w-full max-w-md bg-white p-6 border rounded-xl shadow-lg">
             <h1 className="text-xl font-bold mb-4 text-center">Crear Vacante</h1>
@@ -132,6 +131,7 @@ export default function CreateVacancyPage() {
           </div>
         </div>
       </div>
+      </Layout>
     </>
   );
 }

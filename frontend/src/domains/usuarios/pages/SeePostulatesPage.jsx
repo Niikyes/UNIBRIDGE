@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Navbar from "../../../components/Navbar";
-import RoleBasedSidebar from "../../../components/RoleBasedSidebar";
+import Layout from "../../../layouts/Layout";
 import { useParams, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -51,7 +50,7 @@ export default function VerPostuladosPage() {
 
   return (
     <>
-      <Navbar />
+      <Layout>
       <div className="flex">
         <RoleBasedSidebar />
         <div className="flex-1 p-6">
@@ -78,6 +77,7 @@ export default function VerPostuladosPage() {
           )}
         </div>
       </div>
+      </Layout>
     </>
   );
 }
