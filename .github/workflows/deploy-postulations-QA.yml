@@ -24,8 +24,8 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/postulation-get-by-vacancy-service ./backend/domains/postulations/postulation-get-by-vacancy-service
           docker push ${{ secrets.DOCKER_USERNAME }}/postulation-get-by-vacancy-service
 
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/transform-id-service ./backend/domains/postulations/transform-id-service
-          docker push ${{ secrets.DOCKER_USERNAME }}/transform-id-service
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/transform-id ./backend/domains/postulations/transform-id
+          docker push ${{ secrets.DOCKER_USERNAME }}/transform-id
 
   deploy:
     needs: build-and-push
